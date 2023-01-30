@@ -6,8 +6,8 @@
 </head>
 
 <body>
-    <h1>Sample Email</h1>
-    <p>This is a sample email sent from Laravel.</p>
+    <h1>Thanks for your order!</h1>
+    <p></p>
 </body>
 
 </html>
