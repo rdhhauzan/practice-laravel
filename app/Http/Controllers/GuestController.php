@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Snap;
+use App\Mail\Email;
+use Illuminate\Support\Facades\Mail;
 
 class GuestController extends Controller
 {
@@ -67,6 +69,9 @@ class GuestController extends Controller
             'bookId' => $bookId,
             'userId' => $userId,
         ]);
+
+        $to_email = Auth::user()->email;
+        Mail::to($to_email)->send(new Email());
 
         return redirect('/')->with('success', 'Book success to buy');
     }
