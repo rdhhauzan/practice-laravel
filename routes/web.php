@@ -34,6 +34,7 @@ Route::middleware('admin')->group(function () {
     )->name('dashboard');
 
     Route::get('/books', [BookController::class, 'index']);
+    Route::get('/books/search', [BookController::class, 'search']);
     Route::post('/book', [BookController::class, 'store']);
     Route::get('/book', [BookController::class, 'storeView']);
     Route::get('/book/delete/{id}', [BookController::class, 'delete']);

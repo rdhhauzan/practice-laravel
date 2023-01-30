@@ -25,6 +25,12 @@ class BookController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->where('books.name', 'like', '%' . $request->input('name') . '%')->get();
+
+        return view('books', compact('books'));
+    }
 
     public function store(Request $request)
     {
