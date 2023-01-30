@@ -25,6 +25,13 @@ class GuestController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->where('books.name', 'like', '%' . $request->input('name') . '%')->get();
+
+        return view('Guest\GuestBooks', compact('books'));
+    }
+
     public function buy($id)
     {
         $book = DB::table('books')->where('id', $id)->get();

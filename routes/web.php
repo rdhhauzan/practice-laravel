@@ -71,6 +71,7 @@ Route::middleware('Guest')->group(function () {
         }
     );
     Route::get('/guest/books', [GuestController::class, 'index']);
+    Route::get('/guest/books/search', [GuestController::class, 'search'])->name('search');
     Route::get('/guest/userBooks', [GuestController::class, 'getUserBook']);
     Route::get('/guest/book/buy/{id}', [GuestController::class, 'buy']);
     Route::post('/guest/book/add', [GuestController::class, 'storeBook'])->name('storeBook');

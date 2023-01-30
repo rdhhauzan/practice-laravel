@@ -5,6 +5,11 @@
 </div>
 @endif
 
+<form action="{{ route('search') }}" method="GET">
+    <input type="text" name="name">
+    <button type="submit">Search</button>
+</form>
+
 <table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
