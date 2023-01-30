@@ -20,10 +20,12 @@
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">Guest Dashboard</div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/books">Buy
-                    Books</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/books">Book
+                    Lists</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/userBooks">Your
                     Books</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/wishlist">Your
+                    Wishlist</a>
                 <form action="/logout" method="post">
                     @csrf
                     <button class="list-group-item list-group-item-action list-group-item-light p-3"

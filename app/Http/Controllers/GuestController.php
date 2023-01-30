@@ -70,4 +70,28 @@ class GuestController extends Controller
 
         return view('Guest\userBooks', compact('books'));
     }
+
+    public function addWishlist($id)
+    {
+        DB::table('wishlist')->insert([
+            'bookId' => $id,
+            'userId' => Auth::user()->id
+        ]);
+
+        return redirect('/guest/wishlist')->with('success', 'Book Add to wishlist Successfully');
+    }
+
+    public function getWishlist()
+    {
+        $books = DB::table('wishlist')->join('books', 'wishlist.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription', 'books.id AS bookId')->where('userId', Auth::user()->id)->get();
+
+        return view('Guest\Wishlist', compact('books'));
+    }
+
+    public function deleteWishlist($id)
+    {
+        DB::table('wishlist')->where('bookId', $id)->where('userId', Auth::user()->id)->delete();
+
+        return redirect('/guest/wishlist')->with('success', 'Wishlist Delete Successfully!');
+    }
 }

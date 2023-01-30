@@ -25,7 +25,11 @@
             <td>{{ $book->description }}</td>
             <td>{{ $book->name }}</td>
             <td>
-                <a href="/guest/book/buy/{{ $book->bookId }}">Buy Book</a>
+                <a href="/guest/book/buy/{{ $book->bookId }}" class="btn btn-primary">Buy Book</a>
+                <form action="/guest/wishlist/add/{{ $book->bookId }}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-primary my-2">Add to Wishlist</button>
+                </form>
             </td>
         </tr>
         @endforeach

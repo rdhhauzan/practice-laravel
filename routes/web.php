@@ -74,6 +74,9 @@ Route::middleware('Guest')->group(function () {
     Route::get('/guest/userBooks', [GuestController::class, 'getUserBook']);
     Route::get('/guest/book/buy/{id}', [GuestController::class, 'buy']);
     Route::post('/guest/book/add', [GuestController::class, 'storeBook'])->name('storeBook');
+    Route::post('/guest/wishlist/add/{id}', [GuestController::class, 'addWishlist']);
+    Route::get('/guest/wishlist', [GuestController::class, 'getWishlist']);
+    Route::get('/guest/wishlist/delete/{id}', [GuestController::class, 'deleteWishlist']);
 });
 
 // ! RegisterController Route
