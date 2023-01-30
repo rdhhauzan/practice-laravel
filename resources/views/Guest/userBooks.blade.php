@@ -2,6 +2,14 @@
 
 @section('content')
 <h5>Your Total Books : {{count($books)}} Books</h5>
+
+@php $sum = 0 @endphp
+@foreach($books as $book)
+@php
+$sum += $book->bookPrice
+@endphp
+@endforeach
+<h5>Total Spend : {{$sum}}</h5>
 <table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
