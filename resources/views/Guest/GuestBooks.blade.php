@@ -10,7 +10,8 @@
     <button type="submit">Search</button>
 </form>
 
-<table class="table table-bordered table-hover" border="1">
+@if(count($books) > 0)
+<table class="table table-bordered table-hover mt-3" border="1">
     <thead>
         <tr>
             <th>No</th>
@@ -40,4 +41,7 @@
         @endforeach
     </tbody>
 </table>
+@else
+<h3 class="mt-3 text-center">No Data Found</h3>
+@endif
 @endsection
