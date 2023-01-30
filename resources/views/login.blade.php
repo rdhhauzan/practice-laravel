@@ -19,14 +19,14 @@
             <main class="form-registration">
                 <h1 class="h3 mb-3 fw-normal text-center">Login</h1>
                 @if (session('loginError'))
-                    <div class="alert alert-danger">
-                        {{ session('loginError') }}
-                    </div>
+                <div class="alert alert-danger">
+                    {{ session('loginError') }}
+                </div>
                 @endif
                 @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
                 @endif
                 <form action="/login" method="POST">
                     @csrf
@@ -43,6 +43,15 @@
 
                     <button class="w-100 btn btn-lg btn-danger mt-3" type="submit">Login</button>
                 </form>
+                @if ($errors->any())
+                <div class="alert alert-danger mt-3">
+                    <ul class="mt-3">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <small class="d-block mt-3">Doesn't have an account? <a class="text-danger" href="/register">
                         Register
                         Now!</a></small>
