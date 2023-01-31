@@ -27,7 +27,7 @@
         <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $book->bookName }}</td>
-            <td>{{ $book->price }}</td>
+            <td>{{ "Rp " . number_format($book->price, 2, ',', '.') }}</td>
             <td>{{ $book->description }}</td>
             <td>{{ $book->name }}</td>
             <td>

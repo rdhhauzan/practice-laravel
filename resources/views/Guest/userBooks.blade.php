@@ -1,17 +1,10 @@
 @extends('Guest\GuestMaster') @section('title', 'User Books')
 
 @section('content')
-<h5>Your Total Books : {{count($books)}} Books</h5>
-
-@php $sum = 0 @endphp
-@foreach($books as $book)
-@php
-$sum += $book->bookPrice
-@endphp
-@endforeach
+<h5>Your Total Books : {{count($countBooks)}} Books</h5>
 
 @if(count($books) > 0)
-<h5>Total Spend : {{$sum}}</h5>
+<h5>Total Spend : {{$countPrices}}</h5>
 <table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
@@ -27,13 +20,16 @@ $sum += $book->bookPrice
         <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $book->bookName }}</td>
-            <td>{{ $book->bookPrice }}</td>
+            <td>{{ "Rp " . number_format($book->bookPrice, 2, ',', '.') }}</td>
             <td>{{ $book->bookDescription }}</td>
             <td>{{ $book->genreName }}</td>
         </tr>
         @endforeach
     </tbody>
 </table>
+<div class="py-3 my-3">
+    {{$books->links()}}
+</div>
 @else
 <h3 class="mt-3 text-center">No Data Found</h3>
 @endif
