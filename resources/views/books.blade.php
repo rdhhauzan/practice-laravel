@@ -1,4 +1,4 @@
-@extends('master') @section('title', 'Book List :') @section('content')
+@extends('master') @section('title', 'Book List') @section('content')
 @if (session('success'))
 <div class="alert alert-success">
     {{ session('success') }}

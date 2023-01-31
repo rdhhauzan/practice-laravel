@@ -5,9 +5,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-
     <link rel="stylesheet" href="{{ URL::asset('assets/styles.css') }}">
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-Swk36bLl28xGVHxY">
     </script>
@@ -56,7 +53,7 @@
                 </div>
             </nav>
             <!-- Page content-->
-            <div class="container-fluid">
+            <div class="container-fluid" id="app">
                 <h3 class="my-3"> @yield('title')</h3>
 
                 @yield('content')
@@ -68,7 +65,6 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', event => {
-
             const sidebarToggle = document.body.querySelector('#sidebarToggle');
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', event => {
@@ -78,7 +74,6 @@
                         'sb-sidenav-toggled'));
                 });
             }
-
         });
     </script>
 </body>

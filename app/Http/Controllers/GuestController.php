@@ -70,8 +70,7 @@ class GuestController extends Controller
             'userId' => $userId,
         ]);
 
-        // $to_email = Auth::user()->email;
-        $to_email = 'dotcomhomo@gmail.com';
+        $to_email = Auth::user()->email;
         Mail::to($to_email)->send(new Email());
 
         return redirect('/')->with('success', 'Book success to buy');

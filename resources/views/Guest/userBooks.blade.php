@@ -16,7 +16,8 @@
         </tr>
     </thead>
     <tbody>
-        @php $no = 1; @endphp @foreach ($books as $book)
+        @php $no = 1; @endphp
+        @foreach ($books as $book)
         <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $book->bookName }}</td>

@@ -23,7 +23,6 @@ class BookController extends Controller
             Redis::set('books', $books);
             return view('books', compact('books'));
         }
-
     }
 
     public function search(Request $request)
