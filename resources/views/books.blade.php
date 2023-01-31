@@ -11,6 +11,7 @@
 <a href="/books/generate-pdf">Download PDF</a>
 <a href="/books/generate-excel">Download Excel</a>
 
+@if(count($books) > 0)
 <table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
@@ -39,5 +40,7 @@
         @endforeach
     </tbody>
 </table>
+@else
+<h3 class="mt-3 text-center">No Data Found</h3>
+@endif
 @endsection
-{{ logger($books) }}
