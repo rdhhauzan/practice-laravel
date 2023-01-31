@@ -21,8 +21,12 @@
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">Guest Dashboard</div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/books">Show
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/books">Book
+                    Lists</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/userBooks">Your
                     Books</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/guest/wishlist">Your
+                    Wishlist</a>
                 <form action="/logout" method="post">
                     @csrf
                     <button class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -54,9 +58,7 @@
             </nav>
             <!-- Page content-->
             <div class="container-fluid">
-                <h3 class="my-3"> @yield('title')</h3>
                 <button id="pay-button" class="btn btn-primary">Pay</button>
-                @yield('content')
             </div>
         </div>
     </div>
@@ -90,12 +92,14 @@
             url: "http://127.0.0.1:8000/guest/book/add",
             data: {_token:"{{csrf_token()}}", bookId : {{ $bookId }}},
             success: function(response) {
-                window.location = '../../'
                 Swal.fire(
-                'Success!',
-                'Success Buy Book!',
-                'success'
-                )
+                    'Success!',
+                    'Success Buy Book!',
+                    'success'
+                    )
+                .then(() => {
+                    window.location = '../../'
+                }) 
             }
         })
         console.log('asds')

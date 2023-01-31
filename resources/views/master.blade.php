@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
 
     <link rel="stylesheet" href="{{ URL::asset('assets/styles.css') }}">
-    <title>Dashboard</title>
+    <title>@yield('title')</title>
 </head>
 
 <body>

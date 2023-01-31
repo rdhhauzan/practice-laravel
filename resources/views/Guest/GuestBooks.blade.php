@@ -6,7 +6,7 @@
 @endif
 
 <form action="{{ route('search') }}" method="GET">
-    <input type="text" name="name">
+    <input type="text" name="name" placeholder="Enter Book name...">
     <button type="submit">Search</button>
 </form>
 

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/styles.css') }}">
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-Swk36bLl28xGVHxY">
     </script>
-    <title>Dashboard</title>
+    <title>@yield('title')</title>
 </head>
 
 <body>
