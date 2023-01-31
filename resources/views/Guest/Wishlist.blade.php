@@ -6,6 +6,7 @@
 </div>
 @endif
 <h5>Your Total Wishlists : {{count($books)}} Books</h5>
+@if(count($books) > 0)
 <table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
@@ -32,6 +33,9 @@
         @endforeach
     </tbody>
 </table>
+@else
+<h3 class="mt-3 text-center">No Wishlist Found!</h3>
+@endif
 @endsection
 
 <body>

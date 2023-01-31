@@ -11,27 +11,12 @@
             <input type="text" class="form-control rounded-top" name="name" id="name" required value="{{ $g->name }}"
                 placeholder="Name">
             <label for="name">Genre Name</label>
+            @error('name')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <button class="w-100 btn btn-lg btn-danger mt-3" type="submit">Edit Genre</button>
-        @if ($errors->any())
-        <div class="alert alert-danger mt-3">
-            <ul class="mt-3">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
     </form>
-    @if ($errors->any())
-    <div class="alert alert-danger mt-3">
-        <ul class="mt-3">
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
     @endforeach
 </div>
 @endsection

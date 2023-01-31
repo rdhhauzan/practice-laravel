@@ -9,6 +9,8 @@
 $sum += $book->bookPrice
 @endphp
 @endforeach
+
+@if(count($books) > 0)
 <h5>Total Spend : {{$sum}}</h5>
 <table class="table table-bordered table-hover" border="1">
     <thead>
@@ -32,6 +34,9 @@ $sum += $book->bookPrice
         @endforeach
     </tbody>
 </table>
+@else
+<h3 class="mt-3 text-center">No Data Found</h3>
+@endif
 @endsection
 
 <body>

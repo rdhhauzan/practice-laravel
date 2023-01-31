@@ -2,11 +2,12 @@
 {{-- <a href="/genres/generate-pdf">Download PDF</a>
 <a href="/genres/generate-excel">Download Excel</a> --}}
 @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
 @endif
 
+@if(count($genres) > 0)
 <table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
@@ -17,15 +18,18 @@
     </thead>
     <tbody>
         @php $no = 1; @endphp @foreach ($genres as $genre)
-            <tr>
-                <td>{{ $no++ }}</td>
-                <td>{{ $genre->name }}</td>
-                <td>
-                    <a href="genre/delete/{{ $genre->id }}">Delete</a>
-                    <a href="genre/update/{{ $genre->id }}">Edit</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ $no++ }}</td>
+            <td>{{ $genre->name }}</td>
+            <td>
+                <a href="genre/delete/{{ $genre->id }}">Delete</a>
+                <a href="genre/update/{{ $genre->id }}">Edit</a>
+            </td>
+        </tr>
         @endforeach
     </tbody>
 </table>
+@else
+<h3 class="mt-3 text-center">No Data Found!</h3>
+@endif
 @endsection

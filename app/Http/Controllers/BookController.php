@@ -32,6 +32,7 @@ class BookController extends Controller
         return view('books', compact('books'));
     }
 
+
     public function store(Request $request)
     {
         $data = $request->validate([

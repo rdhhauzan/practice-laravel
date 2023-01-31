@@ -10,16 +10,25 @@
             <input type="text" class="form-control rounded-top" name="name" id="name" required value="{{ old('name') }}"
                 placeholder="Name">
             <label for="name">Name</label>
+            @error('name')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-floating">
             <input type="text" class="form-control " name="email" id="email" required value="{{ old('email') }}"
                 placeholder="10000">
             <label for="email">Email</label>
+            @error('email')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-floating">
             <input type="password" class="form-control rounded-bottom" name="password" id="password" required
                 value="{{ old('password') }}" placeholder="password">
             <label for="password">password</label>
+            @error('password')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-floating">
             <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="role">
@@ -28,18 +37,11 @@
                 <option value="guest">Guest</option>
             </select>
             <label for="floatingSelect">Role</label>
+            @error('role')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
         <button class="w-100 btn btn-lg btn-danger mt-3" type="submit">Add user</button>
     </form>
-    @if ($errors->any())
-    <div class="alert alert-danger mt-3">
-        <ul class="mt-3">
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    {{-- {{ logger($genres) }} --}}
 </div>
 @endsection
