@@ -78,7 +78,7 @@ class GuestController extends Controller
 
     public function getUserBook()
     {
-        $books = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription')->where('userId', Auth::user()->id)->simplePaginate(10);
+        $books = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription')->where('userId', Auth::user()->id)->paginate(10);
 
         $countBooks = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription')->where('userId', Auth::user()->id)->get();
 
@@ -89,7 +89,7 @@ class GuestController extends Controller
         }
         $countPrices = "Rp " . number_format($countPrices, 2, ',', '.');
 
-        // dd($books);  
+        // dd($books);
         return view('Guest\userBooks', compact('books', 'countBooks', 'countPrices'));
     }
 
