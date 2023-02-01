@@ -5,12 +5,75 @@
 </div>
 @endif
 <form action="/books/search" method="GET">
-    <input type="text" name="name">
-    <button type="submit">Search</button>
+    <div class="input-group mb-3 w-25">
+        <input type="text" name="name" placeholder="Enter Book name..." class="form-control">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>
-<a href="/books/generate-pdf">Download PDF</a>
-<a href="/books/generate-excel">Download Excel</a>
+<div class="my-3">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add Book
+    </button>
+    <a href="/books/generate-pdf" class="btn btn-primary">Generate PDF</a>
+    <a href="/books/generate-excel" class="btn btn-primary">Generate Excel</a>
+</div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/book" method="post">
+                    @csrf
+                    <div class="form-floating my-3">
+                        <input type="text" class="form-control rounded-top" name="name" id="name" required
+                            value="{{ old('name') }}" placeholder="Name">
+                        <label for="name">Book Name</label>
+                        @error('name')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating my-3">
+                        <input type="number" class="form-control " name="price" id="price" required
+                            value="{{ old('price') }}" placeholder="10000">
+                        <label for="price">Book Price</label>
+                        @error('price')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating my-3">
+                        <input type="text" class="form-control rounded-bottom" name="description" id="description"
+                            required value="{{ old('description') }}" placeholder="description">
+                        <label for="description">Description</label>
+                        @error('description')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-floating my-3">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            name="genreId">
+                            <option selected disabled>--- SELECT GENRE ---</option>
+                            @foreach ($genres as $genre)
+                            <option value="{{ $genre->id }}" {{ $genre->id == old('genreId') ? 'selected' : '' }}>
+                                {{ $genre->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="floatingSelect">Genre</label>
+                        @error('genreId')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <button class="w-100 btn btn-lg btn-danger my-3" type="submit">Add Book</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @if(count($books) > 0)
 <table class="table table-bordered table-hover" border="1">
     <thead>
@@ -32,9 +95,9 @@
             <td>{{ $book->description }}</td>
             <td>{{ $book->name }}</td>
             <td>
-                <a href="book/delete/{{ $book->bookId }}">Delete</a>
-                <a href="book/update/{{ $book->bookId }}">Edit</a>
-                <a href="book/generate-pdf/{{ $book->bookId }}">Generate PDF</a>
+                <a href="book/generate-pdf/{{ $book->bookId }}" class="btn btn-outline-primary">Generate PDF</a>
+                <a href="book/update/{{ $book->bookId }}" class="btn btn-outline-warning">Edit</a>
+                <a href="book/delete/{{ $book->bookId }}" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
         @endforeach

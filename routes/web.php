@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Auth;
 // });
 
 Route::middleware('admin')->group(function () {
-    Route::get(
+    Route::get( 
         '/',
         function () {
             return view('dashboard');

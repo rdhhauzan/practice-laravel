@@ -6,12 +6,14 @@
 @endif
 
 <form action="{{ route('search') }}" method="GET">
-    <input type="text" name="name" placeholder="Enter Book name...">
-    <button type="submit">Search</button>
+    <div class="input-group mb-3 w-25">
+        <input type="text" name="name" placeholder="Enter Book name..." class="form-control">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>
 
 @if(count($books) > 0)
-<table class="table table-bordered table-hover mt-3" border="1">
+<table class="table table-bordered table-hover" border="1">
     <thead>
         <tr>
             <th>No</th>

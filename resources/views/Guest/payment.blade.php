@@ -58,7 +58,22 @@
             </nav>
             <!-- Page content-->
             <div class="container-fluid">
-                <button id="pay-button" class="btn btn-primary">Pay</button>
+                <div class="card my-3 mx-auto" style="width: 30rem">
+                    <div class="card-body">
+                        <h5 class="card-title">Your order detail</h5>
+                        <div class="row mx-auto">
+                            <div class="col my-auto">
+                                <p class="">Book Name</p>
+                                <p class="card-text">{{$book[0]->bookName}}</p>
+                            </div>
+                            <div class="col my-auto">
+                                <p class="text-center">Price</p>
+                                <p class="card-text">{{ "Rp " . number_format($book[0]->price, 2, ',', '.') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="pay-button" class="btn btn-primary">Pay</button>
+                </div>
             </div>
         </div>
     </div>

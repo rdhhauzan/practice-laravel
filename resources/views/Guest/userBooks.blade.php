@@ -31,10 +31,10 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination d-flex justify-content-center">
         <li class="page-item {{ ($books->currentPage() == 1) ? ' disabled' : '' }}">
-            <a class="page-link" href="{{ $books->url(1) }}">First</a>
+            <a href="{{ $books->url(1) }}" class="page-link">First</a>
         </li>
-        <li class="page-item {{ ($books->currentPage() == 1) ? ' disabled' : '' }}">
-            <a class="page-link" href="{{ $books->previousPageUrl() }}">Previous</a>
+        <li class="page-item {{ ($books->currentPage() == 1) ? ' disabled' : ''}}">
+            <a href="{{ $books->previousPageUrl() }}" class="page-link">Previous</a>
         </li>
         @for($i = 1; $i <= $books->lastPage(); $i++)
             <li class="page-item {{ ($books->currentPage() == $i) ? ' active' : '' }}">

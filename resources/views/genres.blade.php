@@ -22,8 +22,8 @@
             <td>{{ $no++ }}</td>
             <td>{{ $genre->name }}</td>
             <td>
-                <a href="genre/delete/{{ $genre->id }}">Delete</a>
-                <a href="genre/update/{{ $genre->id }}">Edit</a>
+                <a href="genre/update/{{ $genre->id }}" class="btn btn-outline-warning">Edit</a>
+                <a href="genre/delete/{{ $genre->id }}" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
         @endforeach

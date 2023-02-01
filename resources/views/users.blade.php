@@ -26,7 +26,7 @@
             <td>{{ $user->email }}</td>
             <td>{{ $user->role }}</td>
             <td>
-                <a href="user/delete/{{ $user->id }}">Delete</a>
+                <a href="user/delete/{{ $user->id }}" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
         @endforeach

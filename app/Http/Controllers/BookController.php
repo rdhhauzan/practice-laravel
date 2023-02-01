@@ -17,19 +17,21 @@ class BookController extends Controller
 
         if (isset($cached)) {
             $books = json_decode($cached, null);
-            return view('books', compact('books'));
+            $genres = DB::table('genre')->orderBy('id', 'desc')->get();
+            return view('books', compact('books', 'genres'));
         } else {
             $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
+            $genres = DB::table('genre')->orderBy('id', 'desc')->get();
             Redis::set('books', $books);
-            return view('books', compact('books'));
+            return view('books', compact('books', 'genres'));
         }
     }
 
     public function search(Request $request)
     {
         $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->where('books.name', 'like', '%' . $request->input('name') . '%')->get();
-
-        return view('books', compact('books'));
+        $genres = DB::table('genre')->orderBy('id', 'desc')->get();
+        return view('books', compact('books', 'genres'));
     }
 
     public function store(Request $request)

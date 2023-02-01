@@ -6,7 +6,7 @@
     <form action="/user" method="post">
         @csrf
 
-        <div class="form-floating">
+        <div class="form-floating my-3">
             <input type="text" class="form-control rounded-top" name="name" id="name" required value="{{ old('name') }}"
                 placeholder="Name">
             <label for="name">Name</label>
@@ -14,7 +14,7 @@
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-3">
             <input type="text" class="form-control " name="email" id="email" required value="{{ old('email') }}"
                 placeholder="10000">
             <label for="email">Email</label>
@@ -22,7 +22,7 @@
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-3">
             <input type="password" class="form-control rounded-bottom" name="password" id="password" required
                 value="{{ old('password') }}" placeholder="password">
             <label for="password">password</label>
@@ -30,7 +30,7 @@
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-3">
             <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="role">
                 <option selected disabled>--- SELECT ROLE ---</option>
                 <option value="admin">Admin</option>

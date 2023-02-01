@@ -36,7 +36,8 @@ class GuestController extends Controller
 
     public function buy($id)
     {
-        $book = DB::table('books')->where('id', $id)->get();
+        // $book = DB::table('books')->where('id', $id)->get();
+        $book = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->where('books.id', $id)->get();
         $bookId = $id;
         // dd($book[0]->price);
         Config::$serverKey = 'SB-Mid-server-nU1WKAwolq2Zzv-eKVov7L65';
@@ -55,9 +56,8 @@ class GuestController extends Controller
             )
         );
 
-        // dd($snapToken);
-
-        return view('Guest\payment', compact('snapToken', 'bookId'));
+        // dd($book);
+        return view('Guest\payment', compact('snapToken', 'bookId', 'book'));
     }
 
     public function storeBook(Request $request)
