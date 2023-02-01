@@ -11,11 +11,11 @@
     </div>
 </form>
 <div class="my-3">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Add Book
     </button>
-    <a href="/books/generate-pdf" class="btn btn-primary">Generate PDF</a>
-    <a href="/books/generate-excel" class="btn btn-primary">Generate Excel</a>
+    <a href="/books/generate-pdf" class="btn btn-outline-primary">Generate PDF</a>
+    <a href="/books/generate-excel" class="btn btn-outline-primary">Generate Excel</a>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -36,12 +36,17 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|max:255',
-            'price' => 'required|max:255',
-            'description' => 'required',
-            'genreId' => 'required',
-        ]);
+        $data = $request->validate(
+            [
+                'name' => 'required|max:255',
+                'price' => 'required|max:255',
+                'description' => 'required',
+                'genreId' => 'required',
+            ],
+            [
+                'genreId.required' => 'The genre field is required.'
+            ]
+        );
 
         Redis::del('books');
         // Book::create($data);
