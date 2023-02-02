@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     @foreach ($book as $p)
-    <form action="/book/update" method="post">
+    <form action="/book/update" method="post" enctype="multipart/form-data">
         @csrf
 
         <input type="hidden" name="id" value="{{ $p->id }}"> <br />
@@ -29,6 +29,13 @@
                 value="{{ $p->description }}" placeholder="description">
             <label for="description">Description</label>
             @error('description')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="form-floating my-3">
+            <input type="file" class="form-control rounded-bottom" name="image" id="image" placeholder="image">
+            <label for="image">Image</label>
+            @error('image')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>

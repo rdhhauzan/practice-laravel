@@ -53,7 +53,7 @@ class BookController extends Controller
                 'genreId.required' => 'The genre field is required.'
             ]
         );
-
+        // dd($request);
         $image = $request->file('image');
         $input['imageName'] = time() . '.' . $image->getClientOriginalExtension();
         $destinationPath = public_path('/images');
@@ -102,14 +102,34 @@ class BookController extends Controller
             'price' => 'required|max:255',
             'description' => 'required',
             'genreId' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072',
         ]);
+        // dd($request);
+        if ($request->hasFile('image')) {
+            $getBook = DB::table('books')->where('id', $request->id)->get();
+            $image_path = public_path() . '/images/' . $getBook[0]->image;
+            File::delete($image_path);
 
-        DB::table('books')->where('id', $request->id)->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-            'genreId' => $request->genreId,
-        ]);
+            $image = $request->file('image');
+            $input['imageName'] = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $input['imageName']);
+
+            DB::table('books')->where('id', $request->id)->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'genreId' => $request->genreId,
+                'image' => $input['imageName']
+            ]);
+        } else {
+            DB::table('books')->where('id', $request->id)->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'genreId' => $request->genreId,
+            ]);
+        }
 
         // Redis::del('books');
         return redirect('/books')->with('success', 'Book Update Successfully');
