@@ -13,40 +13,29 @@
 </form>
 
 @if(count($books) > 0)
-<table class="table table-bordered table-hover" border="1">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Book Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Genre</th>
-            <th>Image</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @php $no = 1; @endphp @foreach ($books as $book)
-        <tr>
-            <td>{{ $no++ }}</td>
-            <td>{{ $book->bookName }}</td>
-            <td>{{ "Rp " . number_format($book->price, 2, ',', '.') }}</td>
-            <td>{{ $book->description }}</td>
-            <td>{{ $book->name }}</td>
-            <td align="center">
-                <img src="{{url('/images/'.$book->image)}}" alt="img" style="width:180px; height:100px;">
-            </td>
-            <td>
-                <a href="/guest/book/buy/{{ $book->bookId }}" class="btn btn-primary">Buy Book</a>
+<div class="row gx-3 justify-content-center">
+    @foreach($books as $book)
+    <div class="col-lg-3 col-md-6">
+        <div class="card mb-3" style="max-width: 300px;">
+            <img src="{{url('/images/'.$book->image)}}  " class="card-img-top" alt="Product Image">
+            <div class="card-body">
+                <h5 class="card-title">{{ $book->bookName }}</h5>
+                <p class="card-text">{{ $book->description }}</p>
+                <p class="card-text"><small class="text-muted">{{ $book->name }}</small></p>
+                <p class="card-text">
+                    <span class="text-primary" style="font-weight: bold;">{{ "Rp " . number_format($book->price, 2, ',',
+                        '.') }}</span>
+                </p>
+                <a href="/guest/book/buy/{{ $book->bookId }}" class="btn btn-sm btn-outline-danger">Buy</a>
                 <form action="/guest/wishlist/add/{{ $book->bookId }}" method="post">
                     @csrf
-                    <button type="submit" class="btn btn-primary my-2">Add to Wishlist</button>
+                    <button type="submit" class="btn btn-outline-secondary btn-sm mt-3">Add to Wishlist</button>
                 </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
 @else
 <h3 class="mt-3 text-center">No Data Found</h3>
 @endif
