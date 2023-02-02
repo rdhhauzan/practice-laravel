@@ -21,6 +21,7 @@
             <th>Price</th>
             <th>Description</th>
             <th>Genre</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -32,6 +33,9 @@
             <td>{{ "Rp " . number_format($book->price, 2, ',', '.') }}</td>
             <td>{{ $book->description }}</td>
             <td>{{ $book->name }}</td>
+            <td align="center">
+                <img src="{{url('/images/'.$book->image)}}" alt="img" style="width:180px; height:100px;">
+            </td>
             <td>
                 <a href="/guest/book/buy/{{ $book->bookId }}" class="btn btn-primary">Buy Book</a>
                 <form action="/guest/wishlist/add/{{ $book->bookId }}" method="post">

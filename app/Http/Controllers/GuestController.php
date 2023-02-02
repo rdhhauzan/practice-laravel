@@ -25,7 +25,7 @@ class GuestController extends Controller
         //     Redis::set('books', $books);
         //     return view('Guest\GuestBooks', compact('books'));
         // }
-        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->get();
         return view('Guest\GuestBooks', compact('books'));
     }
 
