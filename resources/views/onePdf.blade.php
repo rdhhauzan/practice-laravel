@@ -34,6 +34,9 @@
             @endforeach
         </tbody>
     </table>
+    @foreach($books as $book)
+    <img src="{{ public_path('/images/'.$book->image) }}" alt="img">
+    @endforeach
 </body>
 
 </html>
