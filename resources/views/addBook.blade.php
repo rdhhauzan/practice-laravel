@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="container">
-    <form action="/book" method="post">
+    <form action="/book" method="post" enctype="multipart/form-data">
         @csrf
         <div class="form-floating my-3">
             <input type="text" class="form-control rounded-top" name="name" id="name" required value="{{ old('name') }}"
@@ -26,6 +26,15 @@
                 value="{{ old('description') }}" placeholder="description">
             <label for="description">Description</label>
             @error('description')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-floating my-3">
+            <input type="file" class="form-control rounded-bottom" name="image" id="image" required
+                value="{{ old('image') }}" placeholder="image">
+            <label for="image">Image</label>
+            @error('image')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>

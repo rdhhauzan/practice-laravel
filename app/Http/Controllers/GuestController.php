@@ -15,16 +15,18 @@ class GuestController extends Controller
 {
     public function index()
     {
-        $cached = Redis::get('books');
+        // $cached = Redis::get('books');
 
-        if (isset($cached)) {
-            $books = json_decode($cached, null);
-            return view('Guest\GuestBooks', compact('books'));
-        } else {
-            $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
-            Redis::set('books', $books);
-            return view('Guest\GuestBooks', compact('books'));
-        }
+        // if (isset($cached)) {
+        //     $books = json_decode($cached, null);
+        //     return view('Guest\GuestBooks', compact('books'));
+        // } else {
+        //     $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
+        //     Redis::set('books', $books);
+        //     return view('Guest\GuestBooks', compact('books'));
+        // }
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
+        return view('Guest\GuestBooks', compact('books'));
     }
 
     public function search(Request $request)

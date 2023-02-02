@@ -13,18 +13,22 @@ class BookController extends Controller
 {
     public function index()
     {
-        $cached = Redis::get('books');
+        // $cached = Redis::get('books');
 
-        if (isset($cached)) {
-            $books = json_decode($cached, null);
-            $genres = DB::table('genre')->orderBy('id', 'desc')->get();
-            return view('books', compact('books', 'genres'));
-        } else {
-            $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
-            $genres = DB::table('genre')->orderBy('id', 'desc')->get();
-            Redis::set('books', $books);
-            return view('books', compact('books', 'genres'));
-        }
+        // if (isset($cached)) {
+        //     $books = json_decode($cached, null);
+        //     $genres = DB::table('genre')->orderBy('id', 'desc')->get();
+        //     return view('books', compact('books', 'genres'));
+        // } else {
+        //     $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
+        //     $genres = DB::table('genre')->orderBy('id', 'desc')->get();
+        //     Redis::set('books', $books);
+        //     return view('books', compact('books', 'genres'));
+        // }
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->get();
+        $genres = DB::table('genre')->orderBy('id', 'desc')->get();
+
+        return view('books', compact('books', 'genres'));
     }
 
     public function search(Request $request)
@@ -36,20 +40,33 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(
+        $validator = $request->validate(
             [
                 'name' => 'required|max:255',
                 'price' => 'required|max:255',
                 'description' => 'required',
                 'genreId' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3072',
             ],
             [
                 'genreId.required' => 'The genre field is required.'
             ]
         );
 
-        Redis::del('books');
-        // Book::create($data);
+        $image = $request->file('image');
+        $input['imageName'] = time() . '.' . $image->getClientOriginalExtension();
+        $destinationPath = public_path('/images');
+        $image->move($destinationPath, $input['imageName']);
+
+        $data = [
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'genreId' => $request->genreId,
+            'image' => $input['imageName']
+        ];
+
+        // Redis::del('books');
         DB::table('books')->insert($data);
         return redirect('/books')->with('success', 'Book Add Successfully');
     }
@@ -63,7 +80,7 @@ class BookController extends Controller
     public function delete($id)
     {
         DB::table('books')->where('id', $id)->delete();
-        Redis::del('books');
+        // Redis::del('books');
         return redirect('/books')->with('success', 'Book Delete Successfully');
     }
 
@@ -90,7 +107,7 @@ class BookController extends Controller
             'genreId' => $request->genreId,
         ]);
 
-        Redis::del('books');
+        // Redis::del('books');
         return redirect('/books')->with('success', 'Book Update Successfully');
     }
 
@@ -104,10 +121,12 @@ class BookController extends Controller
 
     public function generateOneDataPDF($id)
     {
-        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.name AS genreName')->where('books.id', $id)->get();
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.name AS genreName', 'books.image')->where('books.id', $id)->get();
 
         $pdf = PDF::loadView('pdf', compact('books'));
         return $pdf->download('test.pdf');
+        // dd($books[0]->image);
+
     }
 
     public function generateExcel()

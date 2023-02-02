@@ -21,19 +21,22 @@
 
         <tbody>
             @php
-                $no = 1;
+            $no = 1;
             @endphp
             @foreach ($books as $book)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $book->bookName }}</td>
-                    <td>{{ $book->price }}</td>
-                    <td>{{ $book->description }}</td>
-                    <td>{{ $book->genreName }}</td>
-                </tr>
+            <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ $book->bookName }}</td>
+                <td>{{ $book->price }}</td>
+                <td>{{ $book->description }}</td>
+                <td>{{ $book->genreName }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
+    @foreach($books as $book)
+    <img src="{{ public_path('/images/'.$book->image) }}" alt="img">
+    @endforeach
 </body>
 
 </html>

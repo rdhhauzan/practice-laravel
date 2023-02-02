@@ -26,7 +26,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/book" method="post">
+                <form action="/book" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-floating my-3">
                         <input type="text" class="form-control rounded-top" name="name" id="name" required
@@ -49,6 +49,15 @@
                             required value="{{ old('description') }}" placeholder="description">
                         <label for="description">Description</label>
                         @error('description')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-floating my-3">
+                        <input type="file" class="form-control rounded-bottom" name="image" id="image" required
+                            value="{{ old('image') }}" placeholder="image">
+                        <label for="image">Image</label>
+                        @error('image')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -83,6 +92,7 @@
             <th>Price</th>
             <th>Description</th>
             <th>Genre</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -94,6 +104,9 @@
             <td>{{ "Rp " . number_format($book->price, 2, ',', '.') }}</td>
             <td>{{ $book->description }}</td>
             <td>{{ $book->name }}</td>
+            <td>
+                <img src="{{url('/images/'.$book->image)}}" alt="img" style="width:100px; height:100px;">
+            </td>
             <td>
                 <a href="book/generate-pdf/{{ $book->bookId }}" class="btn btn-outline-primary">Generate PDF</a>
                 <a href="book/update/{{ $book->bookId }}" class="btn btn-outline-warning">Edit</a>
