@@ -8,6 +8,7 @@ use \PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BooksExport;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\File;
 
 class BookController extends Controller
 {
@@ -79,6 +80,9 @@ class BookController extends Controller
 
     public function delete($id)
     {
+        $getBook = DB::table('books')->where('id', $id)->get();
+        $image_path = public_path() . '/images/' . $getBook[0]->image;
+        File::delete($image_path);
         DB::table('books')->where('id', $id)->delete();
         // Redis::del('books');
         return redirect('/books')->with('success', 'Book Delete Successfully');

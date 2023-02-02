@@ -104,8 +104,8 @@
             <td>{{ "Rp " . number_format($book->price, 2, ',', '.') }}</td>
             <td>{{ $book->description }}</td>
             <td>{{ $book->name }}</td>
-            <td>
-                <img src="{{url('/images/'.$book->image)}}" alt="img" style="width:100px; height:100px;">
+            <td align="center">
+                <img src="{{url('/images/'.$book->image)}}" alt="img" style="width:180px; height:100px;">
             </td>
             <td>
                 <a href="book/generate-pdf/{{ $book->bookId }}" class="btn btn-outline-primary">Generate PDF</a>
