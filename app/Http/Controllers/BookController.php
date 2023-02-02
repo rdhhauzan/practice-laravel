@@ -34,7 +34,7 @@ class BookController extends Controller
 
     public function search(Request $request)
     {
-        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->where('books.name', 'like', '%' . $request->input('name') . '%')->get();
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->where('books.name', 'like', '%' . $request->input('name') . '%')->get();
         $genres = DB::table('genre')->orderBy('id', 'desc')->get();
         return view('books', compact('books', 'genres'));
     }
@@ -53,7 +53,6 @@ class BookController extends Controller
                 'genreId.required' => 'The genre field is required.'
             ]
         );
-        // dd($request);
         $image = $request->file('image');
         $input['imageName'] = time() . '.' . $image->getClientOriginalExtension();
         $destinationPath = public_path('/images');
@@ -104,7 +103,6 @@ class BookController extends Controller
             'genreId' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072',
         ]);
-        // dd($request);
         if ($request->hasFile('image')) {
             $getBook = DB::table('books')->where('id', $request->id)->get();
             $image_path = public_path() . '/images/' . $getBook[0]->image;
