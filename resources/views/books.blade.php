@@ -116,6 +116,28 @@
         @endforeach
     </tbody>
 </table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination d-flex justify-content-center">
+        <li class="page-item {{ ($books->currentPage() == 1) ? ' disabled' : '' }}">
+            <a href="{{ $books->url(1) }}" class="page-link">First</a>
+        </li>
+        <li class="page-item {{ ($books->currentPage() == 1) ? ' disabled' : ''}}">
+            <a href="{{ $books->previousPageUrl() }}" class="page-link">Previous</a>
+        </li>
+        @for($i = 1; $i <= $books->lastPage(); $i++)
+            <li class="page-item {{ ($books->currentPage() == $i) ? ' active' : '' }}">
+                <a class="page-link" href="{{ $books->url($i) }}">{{ $i }}</a>
+            </li>
+            @endfor
+            <li class="page-item {{ ($books->currentPage() == $books->lastPage()) ? ' disabled' : '' }}">
+                <a class="page-link" href="{{ $books->nextPageUrl() }}">Next</a>
+            </li>
+            <li class="page-item {{ ($books->currentPage() == $books->lastPage()) ? ' disabled' : '' }}">
+                <a class="page-link" href="{{ $books->url($books->lastPage()) }}">Last</a>
+            </li>
+    </ul>
+</nav>
 @else
 <h3 class="mt-3 text-center">No Data Found</h3>
 @endif
