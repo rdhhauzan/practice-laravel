@@ -12,7 +12,9 @@
             <th>Book Name</th>
             <th>Price</th>
             <th>Description</th>
+            <th>Image</th>
             <th>Genre</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +25,22 @@
             <td>{{ $book->bookName }}</td>
             <td>{{ "Rp " . number_format($book->bookPrice, 2, ',', '.') }}</td>
             <td>{{ $book->bookDescription }}</td>
+            <td align="center">
+                <img src="{{url('/images/'.$book->image)}}" alt="img" style="width:180px; height:100px;">
+            </td>
             <td>{{ $book->genreName }}</td>
+            <td>@if($book->Status == 'pending')
+                <span class="badge bg-warning text-dark">Pending</span>
+                @elseif($book->Status == 'delivered')
+                <span class="badge bg-secondary">Delivered</span>
+                @elseif($book->Status == 'canceled')
+                <span class="badge bg-danger">Canceled</span>
+                @elseif($book->Status == 'packaging')
+                <span class="badge bg-info text-dark">Packaging</span>
+                @elseif($book->Status == 'completed')
+                <span class="badge bg-primary">Completed</span>
+                @endif
+            </td>
         </tr>
         @endforeach
     </tbody>

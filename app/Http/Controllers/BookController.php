@@ -39,6 +39,39 @@ class BookController extends Controller
         return view('books', compact('books', 'genres'));
     }
 
+    public function showUserOrder()
+    {
+        $orders = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('users', 'userbook.userId', '=', 'users.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'books.description AS bookDescription', 'books.image', 'userbook.status AS Status', 'users.email', 'userbook.bookId', 'userbook.userId')->paginate(10);
+
+        // dd($orders);
+        return view('orders', compact('orders'));
+    }
+
+    public function editOrder($userId, $bookId)
+    {
+        $userbook = DB::table('userbook')->where('userId', $userId)->where('bookId', $bookId)->get();
+
+        // dd($userbook);
+        return view('editOrder', compact('userbook'));
+    }
+
+    public function orderUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'bookId' => 'required',
+            'userId' => 'required',
+            'status' => 'required',
+        ]);
+
+        DB::table('userbook')->where('userId', $request->userId)->where('bookId', $request->bookId)->update([
+            'bookId' => $request->bookId,
+            'userId' => $request->userId,
+            'status' => $request->status,
+        ]);
+
+        return redirect('/orders')->with('success', 'Order Update Successfully');
+    }
+
     public function store(Request $request)
     {
         $validator = $request->validate(

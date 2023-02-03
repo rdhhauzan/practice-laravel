@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Auth;
 // });
 
 Route::middleware('admin')->group(function () {
-    Route::get( 
+    Route::get(
         '/',
         function () {
             return view('dashboard');
@@ -36,6 +36,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/search', [BookController::class, 'search']);
     Route::post('/book', [BookController::class, 'store']);
+    Route::get('/orders', [BookController::class, 'showUserOrder']);
+    Route::get('/order/edit/{userId}/{bookId}', [BookController::class, 'editOrder']);
+    Route::post('/order/update', [BookController::class, 'orderUpdate']);
     Route::get('/book', [BookController::class, 'storeView']);
     Route::get('/book/delete/{id}', [BookController::class, 'delete']);
     Route::post('/book/update', [BookController::class, 'update']);

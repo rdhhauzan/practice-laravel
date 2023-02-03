@@ -21,12 +21,12 @@
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/books">Show
                     Books</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/book">Add Books</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/orders">Order</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/genres">Show
                     Genres</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/genre">Add Genre</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/users">Show User</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/user">Add User</a>
-
                 <form action="/logout" method="post">
                     @csrf
                     <button class="list-group-item list-group-item-action list-group-item-light p-3"

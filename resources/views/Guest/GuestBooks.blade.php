@@ -13,9 +13,10 @@
 </form>
 
 @if(count($books) > 0)
-<div class="row gx-3 justify-content-center mt-4">
+<div
+    class="row gx-3 d-flex justify-content-center align-self-center mt-4 row-cols-1 row-cols-sm-3 row-cols-md-3 row-cols-lg-5 row-cols-xl-5">
     @foreach($books as $book)
-    <div class="col-lg-2 col-md-12">
+    <div class="col">
         <div class="card mb-3" style="max-width: 300px;">
             <img src="{{url('/images/'.$book->image)}}  " class="card-img-top" alt="Product Image">
             <div class="card-body">
