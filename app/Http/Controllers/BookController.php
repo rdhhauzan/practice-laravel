@@ -9,10 +9,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BooksExport;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\File;
+use DataTables;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // $cached = Redis::get('books');
 
@@ -26,7 +27,13 @@ class BookController extends Controller
         //     Redis::set('books', $books);
         //     return view('books', compact('books', 'genres'));
         // }
-        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->paginate(10);
+        $column = $request->column ? $request->column : 'id';
+        $direction = $request->direction ? $request->direction : 'desc';
+        if ($direction != 'asc' && $direction != 'desc') {
+            $direction = 'desc';
+        }
+        error_log($direction);
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->orderBy($column, $direction)->paginate(10);
         $genres = DB::table('genre')->orderBy('id', 'desc')->get();
 
         return view('books', compact('books', 'genres'));
@@ -181,7 +188,6 @@ class BookController extends Controller
         $pdf = PDF::loadView('onePdf', compact('books'));
         return $pdf->download('test.pdf');
         // dd($books[0]->image);
-
     }
 
     public function generateExcel()

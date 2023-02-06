@@ -84,18 +84,48 @@
     </div>
 </div>
 @if(count($books) > 0)
-<table class="table table-bordered table-hover" border="1">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Book Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Genre</th>
-            <th>Image</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+<table class="table table-bordered table-hover data-table" border="1">
+    <tr>
+        <th><a style="text-decoration:none; color: inherit;"
+                href="{{ url()->current() }}?column=id&direction={{ request()->direction == 'asc' ? 'desc' : 'asc' }}">No
+                @if(request()->input('column') == 'id' && request()->input('direction') == 'asc')
+                <i class="fas fa-arrow-up"></i>
+                @else
+                <i class="fas fa-arrow-down"></i>
+                @endif
+            </a>
+        </th>
+        <th><a style="text-decoration:none; color: inherit;"
+                href="{{ url()->current() }}?column=bookName&direction={{ request()->direction == 'asc' ? 'desc' : 'asc' }}">Book
+                Name
+                @if(request()->input('column') == 'bookName' && request()->input('direction') == 'asc')
+                <i class="fas fa-arrow-up"></i>
+                @else
+                <i class="fas fa-arrow-down"></i>
+                @endif
+            </a></th>
+        <th><a style="text-decoration:none; color: inherit;"
+                href="{{ url()->current() }}?column=price&direction={{ request()->direction == 'asc' ? 'desc' : 'asc' }}">Book
+                Price
+                @if(request()->input('column') == 'price' && request()->input('direction') == 'asc')
+                <i class="fas fa-arrow-up"></i>
+                @else
+                <i class="fas fa-arrow-down"></i>
+                @endif
+            </a></th>
+        <th>Description</th>
+        <th><a style="text-decoration:none; color: inherit;"
+                href="{{ url()->current() }}?column=name&direction={{ request()->direction == 'asc' ? 'desc' : 'asc' }}">Genre
+                @if(request()->input('column') == 'name' && request()->input('direction') == 'asc')
+                <i class="fas fa-arrow-up"></i>
+                @else
+                <i class="fas fa-arrow-down"></i>
+                @endif
+            </a>
+        </th>
+        <th>Image</th>
+        <th>Action</th>
+    </tr>
     <tbody>
         @php $no = 1; @endphp @foreach ($books as $book)
         <tr>

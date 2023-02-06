@@ -168,6 +168,8 @@ return [
              */
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
             /*
              * Application Service Providers...
              */
