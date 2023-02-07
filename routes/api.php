@@ -25,4 +25,7 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/orders', [BooksController::class, 'showUserOrder']);
     Route::get('/order/edit/{userId}/{bookId}', [BooksController::class, 'editOrder']);
     Route::post('/order/update', [BooksController::class, 'orderUpdate']);
+    Route::get('/book/delete/{id}', [BooksController::class, 'delete']);
+    Route::get('/book/update/{id}', [BooksController::class, 'edit']);
+    Route::post('/book/update/{id}', [BooksController::class, 'update']);
 });

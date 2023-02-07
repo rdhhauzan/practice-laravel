@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class BooksController extends Controller
 {
@@ -91,5 +92,62 @@ class BooksController extends Controller
         ]);
 
         return response()->json('Order Update Successfully');
+    }
+
+    public function delete($id)
+    {
+        $getBook = DB::table('books')->where('id', $id)->get();
+        $image_path = public_path() . '/images/' . $getBook[0]->image;
+        File::delete($image_path);
+
+        DB::table('books')->where('id', $id)->delete();
+        return response()->json('Book Delete Successfully');
+    }
+
+    public function edit($id)
+    {
+        $book = DB::table('books')->where('id', $id)->get();
+        return response()->json($book);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'price' => 'required|max:255',
+            'description' => 'required',
+            'genreId' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        if ($request->hasFile('image')) {
+            $getBook = DB::table('books')->where('id', $id)->get();
+            $image_path = public_path() . '/images/' . $getBook[0]->image;
+            File::delete($image_path);
+
+            $image = $request->file('image');
+            $input['imageName'] = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $input['imageName']);
+
+            DB::table('books')->where('id', $id)->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'genreId' => $request->genreId,
+                'image' => $input['imageName'],
+            ]);
+        } else {
+            DB::table('books')->where('id', $id)->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'genreId' => $request->genreId,
+            ]);
+        }
     }
 }
