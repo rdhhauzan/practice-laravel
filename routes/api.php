@@ -20,5 +20,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/books', [BooksController::class, 'index']);
+    Route::get('/books/search', [BooksController::class, 'search']);
+    Route::post('/book', [BooksController::class, 'store']);
 });
-
