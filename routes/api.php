@@ -28,4 +28,6 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/book/delete/{id}', [BooksController::class, 'delete']);
     Route::get('/book/update/{id}', [BooksController::class, 'edit']);
     Route::post('/book/update/{id}', [BooksController::class, 'update']);
+    Route::get('/books/generate-pdf', [BooksController::class, 'generatePDF']);
+    Route::get('/book/generate-pdf/{id}', [BooksController::class, 'generateOneDataPDF']);
 });

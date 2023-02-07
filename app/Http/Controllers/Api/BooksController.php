@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use \PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BooksExport;
 
 class BooksController extends Controller
 {
@@ -149,5 +152,23 @@ class BooksController extends Controller
                 'genreId' => $request->genreId,
             ]);
         }
+
+        return response()->json("Book Update Successfully!");
+    }
+
+    public function generatePDF()
+    {
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.name AS genreName')->get();
+
+        $pdf = PDF::loadView('pdf', compact('books'));
+        return $pdf->download('test.pdf');
+    }
+
+    public function generateOneDataPDF($id)
+    {
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.name AS genreName', 'books.image')->where('books.id', $id)->get();
+
+        $pdf = PDF::loadView('onePdf', compact('books'));
+        return $pdf->download('test.pdf');
     }
 }
