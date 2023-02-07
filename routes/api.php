@@ -22,4 +22,7 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/books', [BooksController::class, 'index']);
     Route::get('/books/search', [BooksController::class, 'search']);
     Route::post('/book', [BooksController::class, 'store']);
+    Route::get('/orders', [BooksController::class, 'showUserOrder']);
+    Route::get('/order/edit/{userId}/{bookId}', [BooksController::class, 'editOrder']);
+    Route::post('/order/update', [BooksController::class, 'orderUpdate']);
 });

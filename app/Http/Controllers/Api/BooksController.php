@@ -54,4 +54,42 @@ class BooksController extends Controller
 
         return response()->json("Book Add Successfully", 200);
     }
+
+    public function showUserOrder()
+    {
+        $orders = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('users', 'userbook.userId', '=', 'users.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'books.description AS bookDescription', 'books.image', 'userbook.status AS Status', 'users.email', 'userbook.bookId', 'userbook.userId')->paginate(10);
+
+        return response()->json($orders);
+    }
+
+    public function editOrder($userId, $bookId)
+    {
+        $userbook = DB::table('userbook')->where('userId', $userId)->where('bookId', $bookId)->get();
+
+        if ($userbook->isEmpty()) {
+            return response()->json('Order Not Found!');
+        }
+        return response()->json($userbook);
+    }
+
+    public function orderUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'bookId' => 'required',
+            'userId' => 'required',
+            'status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        DB::table('userbook')->where('userId', $request->userId)->where('bookId', $request->bookId)->update([
+            'bookId' => $request->bookId,
+            'userId' => $request->userId,
+            'status' => $request->status,
+        ]);
+
+        return response()->json('Order Update Successfully');
+    }
 }
