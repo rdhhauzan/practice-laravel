@@ -30,4 +30,5 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::post('/book/update/{id}', [BooksController::class, 'update']);
     Route::get('/books/generate-pdf', [BooksController::class, 'generatePDF']);
     Route::get('/book/generate-pdf/{id}', [BooksController::class, 'generateOneDataPDF']);
+    Route::get('/books/generate-excel', [BooksController::class, 'generateExcel']);
 });

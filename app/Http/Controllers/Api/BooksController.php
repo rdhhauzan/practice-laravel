@@ -171,4 +171,8 @@ class BooksController extends Controller
         $pdf = PDF::loadView('onePdf', compact('books'));
         return $pdf->download('test.pdf');
     }
+
+    public function generateExcel() {
+        return Excel::download(new BooksExport, 'book.xlsx');
+    }
 }
