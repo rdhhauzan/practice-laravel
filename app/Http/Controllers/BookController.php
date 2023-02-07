@@ -9,7 +9,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BooksExport;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\File;
-use DataTables;
 
 class BookController extends Controller
 {
@@ -32,7 +31,7 @@ class BookController extends Controller
         if ($direction != 'asc' && $direction != 'desc') {
             $direction = 'desc';
         }
-        error_log($direction);
+
         $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->orderBy($column, $direction)->paginate(10);
         $genres = DB::table('genre')->orderBy('id', 'desc')->get();
 
@@ -158,8 +157,9 @@ class BookController extends Controller
                 'price' => $request->price,
                 'description' => $request->description,
                 'genreId' => $request->genreId,
-                'image' => $input['imageName']
+                'image' => $input['imageName'],
             ]);
+
         } else {
             DB::table('books')->where('id', $request->id)->update([
                 'name' => $request->name,

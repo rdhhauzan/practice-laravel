@@ -23,10 +23,11 @@
         <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $book->bookName }}</td>
-            <td>{{ $book->bookPrice }}</td>
+            <td>{{ "Rp " . number_format($book->bookPrice, 2, ',', '.') }}</td>
             <td>{{ $book->bookDescription }}</td>
             <td>{{ $book->genreName }}</td>
             <td>
+                <a href="/guest/book/buy/{{ $book->bookId }}" class="btn btn btn-primary">Buy Book</a>
                 <a href="/guest/wishlist/delete/{{ $book->bookId }}" class="btn btn-danger">Delete Wishlist</a>
             </td>
         </tr>

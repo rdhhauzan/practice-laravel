@@ -17,7 +17,7 @@ class Navbar extends Component
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * Get the view / contents that represent the component. 
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
