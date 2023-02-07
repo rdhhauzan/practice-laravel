@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BooksController;
+use App\Http\Controllers\Api\GenresController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,10 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/books/generate-pdf', [BooksController::class, 'generatePDF']);
     Route::get('/book/generate-pdf/{id}', [BooksController::class, 'generateOneDataPDF']);
     Route::get('/books/generate-excel', [BooksController::class, 'generateExcel']);
+
+    Route::get('/genres', [GenresController::class, 'index']);
+    Route::post('/genre', [GenresController::class, 'store']);
+    Route::get('/genre/update/{id}', [GenresController::class, 'edit']);
+    Route::get('/genre/delete/{id}', [GenresController::class, 'delete']);
+    Route::post('/genre/update/{id}', [GenresController::class, 'update']);
 });
