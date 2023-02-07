@@ -60,14 +60,6 @@ export default {
                 </div>
             </form>
             <div class="my-3">
-                <button
-                    type="button"
-                    class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                >
-                    Add Book
-                </button>
                 <a href="/books/generate-pdf" class="btn btn-outline-primary"
                     >Generate PDF</a
                 >
@@ -106,25 +98,48 @@ export default {
                             />
                         </td>
                         <td>
-                            <a
-                                href="book/generate-pdf/{{ $book->bookId }}"
-                                class="btn btn-outline-primary"
+                            <a href="#" class="btn btn-outline-primary"
                                 >Generate PDF</a
                             >
-                            <a
-                                href="book/update/{{ $book->bookId }}"
-                                class="btn btn-outline-warning"
-                                >Edit</a
-                            >
-                            <a
-                                href="book/delete/{{ $book->bookId }}"
-                                class="btn btn-outline-danger"
+                            <a href="#" class="btn btn-outline-warning">Edit</a>
+                            <a href="#" class="btn btn-outline-danger"
                                 >Delete</a
                             >
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <div class="pagination-div text-center mt-5">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="#"
+                            @click.prevent="fetchBooks(currentPage - 1)"
+                            v-if="currentPage > 1"
+                            >Previous</a
+                        >
+                    </li>
+                    <div class="" v-for="index in lastPage">
+                        <li class="page-item">
+                            <a
+                                class="page-link"
+                                @click.prevent="fetchBooks(index)"
+                                >{{ index }}</a
+                            >
+                        </li>
+                    </div>
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="#"
+                            @click.prevent="fetchBooks(currentPage + 1)"
+                            v-if="currentPage != lastPage"
+                            >Next</a
+                        >
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>

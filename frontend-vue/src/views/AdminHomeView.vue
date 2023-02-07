@@ -29,6 +29,7 @@ export default {
 </script>
 
 <template>
+    <!-- eslint-disable -->
     <Sidebar />
     <div style="margin-top: 58px">
         <div class="container pt-4">
