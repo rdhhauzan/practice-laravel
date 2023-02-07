@@ -172,7 +172,8 @@ class BooksController extends Controller
         return $pdf->download('test.pdf');
     }
 
-    public function generateExcel() {
+    public function generateExcel()
+    {
         return Excel::download(new BooksExport, 'book.xlsx');
     }
 }
