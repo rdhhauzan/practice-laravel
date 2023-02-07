@@ -1,6 +1,19 @@
 <script>
+import { RouterLink } from "vue-router";
 export default {
     name: "Sidebar",
+    methods: {
+        getActiveNavLink(name) {
+            let classString =
+                "list-group-item list-group-item-action py-2 ripple ";
+
+            if (this.$route.name == name) {
+                classString += "active";
+            }
+
+            return classString;
+        },
+    },
 };
 </script>
 
@@ -14,32 +27,48 @@ export default {
         >
             <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
-                    <a
-                        href="#"
-                        class="list-group-item list-group-item-action py-2 ripple"
+                    <RouterLink
+                        to="/"
                         aria-current="true"
+                        :class="getActiveNavLink('AdminHome')"
                     >
                         <i class="fas fa-tachometer-alt fa-fw me-3"></i
-                        ><span>Main dashboard</span>
-                    </a>
-                    <a
-                        href="#"
-                        class="list-group-item list-group-item-action py-2 ripple"
+                        ><span>Dashboard</span>
+                    </RouterLink>
+                    <RouterLink
+                        to="/books"
+                        :class="getActiveNavLink('ShowBooks')"
                     >
                         <i class="fas fa-chart-area fa-fw me-3"></i
-                        ><span>Webiste traffic</span>
-                    </a>
-                    <a
-                        href="#"
-                        class="list-group-item list-group-item-action py-2 ripple"
+                        ><span>Show Books</span>
+                    </RouterLink>
+                    <RouterLink to="#" :class="getActiveNavLink('AddBook')"
                         ><i class="fas fa-lock fa-fw me-3"></i
-                        ><span>Password</span></a
+                        ><span>Add Book</span></RouterLink
                     >
-                    <a
-                        href="#"
-                        class="list-group-item list-group-item-action py-2 ripple"
+                    <RouterLink to="#" :class="getActiveNavLink('Order')"
                         ><i class="fas fa-chart-line fa-fw me-3"></i
-                        ><span>Analytics</span></a
+                        ><span>Order</span></RouterLink
+                    >
+                    <RouterLink to="#" :class="getActiveNavLink('ShowGenres')"
+                        ><i class="fas fa-chart-line fa-fw me-3"></i
+                        ><span>Show Genres</span></RouterLink
+                    >
+                    <RouterLink to="#" :class="getActiveNavLink('AddGenre')"
+                        ><i class="fas fa-chart-line fa-fw me-3"></i
+                        ><span>Add Genre</span></RouterLink
+                    >
+                    <RouterLink to="#" :class="getActiveNavLink('ShowUsers')"
+                        ><i class="fas fa-chart-line fa-fw me-3"></i
+                        ><span>Show Users</span></RouterLink
+                    >
+                    <RouterLink to="#" :class="getActiveNavLink('AddUser')"
+                        ><i class="fas fa-chart-line fa-fw me-3"></i
+                        ><span>Add User</span></RouterLink
+                    >
+                    <RouterLink to="#" :class="getActiveNavLink('')"
+                        ><i class="fas fa-chart-line fa-fw me-3"></i
+                        ><span>Logout</span></RouterLink
                     >
                 </div>
             </div>
