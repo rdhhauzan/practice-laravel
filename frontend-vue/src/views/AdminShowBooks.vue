@@ -124,6 +124,7 @@ export default {
                         <li class="page-item">
                             <a
                                 class="page-link"
+                                href="#"
                                 @click.prevent="fetchBooks(index)"
                                 >{{ index }}</a
                             >
