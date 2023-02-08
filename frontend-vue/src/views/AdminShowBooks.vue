@@ -14,6 +14,15 @@ export default {
       currentPage: 0,
       isLoading: false,
       search: "",
+      showBook: {
+        name: "",
+        price: 0,
+        description: "",
+        genreId: 0,
+        id: 0,
+      },
+      image: "",
+      genres: [],
     };
   },
   methods: {
@@ -138,6 +147,86 @@ export default {
         });
     },
 
+    async fetchGenres() {
+      try {
+        this.isLoading = true;
+        let { data } = await axios.get(`/genres`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        });
+        // console.log(data);
+        this.genres = data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    onChange(e) {
+      this.image = e.target.files[0];
+    },
+
+    async editBook(id) {
+      this.fetchGenres();
+      try {
+        this.isLoading = true;
+        let { data } = await axios.get(`/book/update/${id}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        });
+        console.log(data[0]);
+        this.showBook.description = data[0].description;
+        this.showBook.genreId = data[0].genreId;
+        this.showBook.name = data[0].name;
+        this.showBook.price = data[0].price;
+        this.showBook.id = data[0].id;
+        // console.log(this.showBook[0].name, "state");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    async submitUpdateBook(id) {
+      let data = new FormData();
+      if (this.image == "") {
+        data.append("name", this.showBook.name);
+        data.append("genreId", this.showBook.genreId);
+        data.append("description", this.showBook.description);
+        data.append("price", this.showBook.price);
+      } else {
+        data.append("image", this.image);
+        data.append("name", this.showBook.name);
+        data.append("genreId", this.showBook.genreId);
+        data.append("description", this.showBook.description);
+        data.append("price", this.showBook.price);
+      }
+
+      await axios
+        .post(`/book/update/${id}`, data, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Update Success",
+            text: `Book Update Successfully!`,
+          });
+          this.fetchBooks();
+          this.$router.push("/books");
+          document.getElementById("close").click();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
     async searchBooks(page) {
       if (!page) {
         page = 1;
@@ -152,8 +241,6 @@ export default {
             },
           }
         );
-        console.log(data, "search result<<<<<<<<<<<<<<<,");
-        this.search = "";
         this.books = data.books.data;
         this.lastPage = data.books.last_page;
         this.currentPage = data.books.current_page;
@@ -197,7 +284,104 @@ export default {
           >Generate Excel</a
         >
       </div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Book</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                id="close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form
+                @submit.prevent="submitUpdateBook(showBook.id)"
+                enctype="multipart/form-data"
+              >
+                <div class="form-floating my-3">
+                  <input
+                    type="text"
+                    class="form-control rounded-top"
+                    name="name"
+                    id="name"
+                    required
+                    placeholder="Name"
+                    v-model="showBook.name"
+                  />
+                  <label for="name">Book Name</label>
+                </div>
+                <div class="form-floating my-3">
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="price"
+                    id="price"
+                    required
+                    placeholder="10000"
+                    v-model="showBook.price"
+                  />
+                  <label for="price">Book Price</label>
+                </div>
+                <div class="form-floating my-3">
+                  <input
+                    type="text"
+                    class="form-control rounded-bottom"
+                    name="description"
+                    id="description"
+                    required
+                    placeholder="description"
+                    v-model="showBook.description"
+                  />
+                  <label for="description">Description</label>
+                </div>
 
+                <div class="form-floating my-3">
+                  <input
+                    type="file"
+                    class="form-control rounded-bottom"
+                    name="image"
+                    id="image"
+                    placeholder="image"
+                    v-on:change="onChange"
+                  />
+                  <label for="image">Image</label>
+                </div>
+
+                <div class="form-floating">
+                  <select
+                    class="form-select"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                    name="genreId"
+                    v-model="showBook.genreId"
+                  >
+                    <option selected disabled>--- SELECT GENRE ---</option>
+                    <option :value="genre.id" v-for="(genre, index) in genres">
+                      {{ genre.name }}
+                    </option>
+                  </select>
+                  <label for="floatingSelect">Genre</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-danger my-3" type="submit">
+                  Edit Book
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal -->
       <div class="d-flex justify-content-center" v-if="isLoading">
         <div
           class="spinner-border"
@@ -242,7 +426,15 @@ export default {
                   @click.prevent="generateOneDataPdf(book.bookId)"
                   >Generate PDF</a
                 >
-                <a href="#" class="btn btn-outline-warning">Edit</a>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  @click.prevent="editBook(book.bookId)"
+                >
+                  Edit
+                </button>
                 <a
                   href="#"
                   class="btn btn-outline-danger"
