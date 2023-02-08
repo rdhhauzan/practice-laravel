@@ -37,6 +37,35 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        async generatePdf() {
+            try {
+                this.isLoading = true;
+                await axios
+                    .get("/books/generate-pdf", {
+                        headers: {
+                            Authorization:
+                                "Bearer " +
+                                localStorage.getItem("access_token"),
+                        },
+                        responseType: "blob",
+                    })
+                    .then((response) => {
+                        const url = window.URL.createObjectURL(
+                            new Blob([response.data])
+                        );
+                        const link = document.createElement("a");
+                        link.href = url;
+                        link.setAttribute("download", "file.pdf");
+                        document.body.appendChild(link);
+                        link.click();
+                    });
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
     },
     beforeMount() {
         this.fetchBooks();
@@ -64,7 +93,9 @@ export default {
                 </div>
             </form>
             <div class="my-3">
-                <a href="/books/generate-pdf" class="btn btn-outline-primary"
+                <a
+                    class="btn btn-outline-primary"
+                    @click.prevent="generatePdf()"
                     >Generate PDF</a
                 >
                 <a href="/books/generate-excel" class="btn btn-outline-primary"
