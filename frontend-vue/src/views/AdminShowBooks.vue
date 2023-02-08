@@ -66,6 +66,35 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        async generateExcel() {
+            try {
+                this.isLoading = true;
+                await axios
+                    .get("/books/generate-excel", {
+                        headers: {
+                            Authorization:
+                                "Bearer " +
+                                localStorage.getItem("access_token"),
+                        },
+                        responseType: "blob",
+                    })
+                    .then((response) => {
+                        const url = window.URL.createObjectURL(
+                            new Blob([response.data])
+                        );
+                        const link = document.createElement("a");
+                        link.href = url;
+                        link.setAttribute("download", "file.xlsx");
+                        document.body.appendChild(link);
+                        link.click();
+                    });
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
     },
     beforeMount() {
         this.fetchBooks();
@@ -98,7 +127,9 @@ export default {
                     @click.prevent="generatePdf()"
                     >Generate PDF</a
                 >
-                <a href="/books/generate-excel" class="btn btn-outline-primary"
+                <a
+                    class="btn btn-outline-primary"
+                    @click.prevent="generateExcel()"
                     >Generate Excel</a
                 >
             </div>
