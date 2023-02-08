@@ -78,6 +78,14 @@ export default {
                                 localStorage.getItem("access_token"),
                         },
                         responseType: "blob",
+                        onDownloadProgress: function (progressEvent) {
+                            console.log(
+                                Math.round(
+                                    (progressEvent.loaded * 100) /
+                                        progressEvent.total
+                                ) + "%"
+                            );
+                        },
                     })
                     .then((response) => {
                         const url = window.URL.createObjectURL(
@@ -86,6 +94,36 @@ export default {
                         const link = document.createElement("a");
                         link.href = url;
                         link.setAttribute("download", "file.xlsx");
+                        document.body.appendChild(link);
+                        link.click();
+                    });
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+        async generateOneDataPdf(id) {
+            console.log(id);
+            try {
+                this.isLoading = true;
+                await axios
+                    .get(`/book/generate-pdf/${id}`, {
+                        headers: {
+                            Authorization:
+                                "Bearer " +
+                                localStorage.getItem("access_token"),
+                        },
+                        responseType: "blob",
+                    })
+                    .then((response) => {
+                        const url = window.URL.createObjectURL(
+                            new Blob([response.data])
+                        );
+                        const link = document.createElement("a");
+                        link.href = url;
+                        link.setAttribute("download", "file.pdf");
                         document.body.appendChild(link);
                         link.click();
                     });
@@ -171,7 +209,12 @@ export default {
                                 />
                             </td>
                             <td>
-                                <a href="#" class="btn btn-outline-primary"
+                                <a
+                                    href="#"
+                                    class="btn btn-outline-primary"
+                                    @click.prevent="
+                                        generateOneDataPdf(book.bookId)
+                                    "
                                     >Generate PDF</a
                                 >
                                 <a href="#" class="btn btn-outline-warning"
