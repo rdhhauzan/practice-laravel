@@ -382,6 +382,8 @@ export default {
         </div>
       </div>
       <!-- End Modal -->
+
+      <!-- Loading -->
       <div class="d-flex justify-content-center" v-if="isLoading">
         <div
           class="spinner-border"
@@ -391,92 +393,96 @@ export default {
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
+      <!-- End Loading -->
 
       <div class="" v-if="!isLoading">
-        <table class="table table-bordered table-hover data-table" border="1">
-          <thead>
-            <tr>
-              <th scope="col">No.</th>
-              <th scope="col">Book Name</th>
-              <th scope="col">Book Price</th>
-              <th scope="col">Description</th>
-              <th scope="col">Genre</th>
-              <th scope="col">Image</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(book, index) in books">
-              <th scope="row">{{ index + 1 }}</th>
-              <td>{{ book.bookName }}</td>
-              <td>{{ book.price }}</td>
-              <td>{{ book.description }}</td>
-              <td>{{ book.name }}</td>
-              <td align="center">
-                <img
-                  :src="`http://127.0.0.1:8000/images/${book.image}`"
-                  alt="img"
-                  style="width: 180px; height: 100px"
-                />
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="btn btn-outline-primary"
-                  @click.prevent="generateOneDataPdf(book.bookId)"
-                  >Generate PDF</a
-                >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  @click.prevent="editBook(book.bookId)"
-                >
-                  Edit
-                </button>
-                <a
-                  href="#"
-                  class="btn btn-outline-danger"
-                  @click.prevent="deleteBook(book.bookId)"
-                  >Delete</a
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="pagination-div text-center mt-5">
-          <ul class="pagination justify-content-center">
-            <li class="page-item">
-              <a
-                class="page-link"
-                href="#"
-                @click.prevent="fetchBooks(currentPage - 1)"
-                v-if="currentPage > 1"
-                >Previous</a
-              >
-            </li>
-            <div class="" v-for="index in lastPage">
+        <div class="" v-if="books.length > 0">
+          <table class="table table-bordered table-hover data-table" border="1">
+            <thead>
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Book Name</th>
+                <th scope="col">Book Price</th>
+                <th scope="col">Description</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(book, index) in books">
+                <th scope="row">{{ index + 1 }}</th>
+                <td>{{ book.bookName }}</td>
+                <td>{{ book.price }}</td>
+                <td>{{ book.description }}</td>
+                <td>{{ book.name }}</td>
+                <td align="center">
+                  <img
+                    :src="`http://127.0.0.1:8000/images/${book.image}`"
+                    alt="img"
+                    style="width: 180px; height: 100px"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="btn btn-outline-primary"
+                    @click.prevent="generateOneDataPdf(book.bookId)"
+                    >Generate PDF</a
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    @click.prevent="editBook(book.bookId)"
+                  >
+                    Edit
+                  </button>
+                  <a
+                    href="#"
+                    class="btn btn-outline-danger"
+                    @click.prevent="deleteBook(book.bookId)"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination-div text-center mt-5">
+            <ul class="pagination justify-content-center">
               <li class="page-item">
                 <a
                   class="page-link"
                   href="#"
-                  @click.prevent="fetchBooks(index)"
-                  >{{ index }}</a
+                  @click.prevent="fetchBooks(currentPage - 1)"
+                  v-if="currentPage > 1"
+                  >Previous</a
                 >
               </li>
-            </div>
-            <li class="page-item">
-              <a
-                class="page-link"
-                href="#"
-                @click.prevent="fetchBooks(currentPage + 1)"
-                v-if="currentPage != lastPage"
-                >Next</a
-              >
-            </li>
-          </ul>
+              <div class="" v-for="index in lastPage">
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click.prevent="fetchBooks(index)"
+                    >{{ index }}</a
+                  >
+                </li>
+              </div>
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="fetchBooks(currentPage + 1)"
+                  v-if="currentPage != lastPage"
+                  >Next</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+        <h3 v-if="books.length < 1">No Data Found!</h3>
       </div>
     </div>
   </div>
