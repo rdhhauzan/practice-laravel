@@ -11,6 +11,7 @@ export default {
             books: [],
             lastPage: 0,
             currentPage: 0,
+            isLoading: false,
         };
     },
     methods: {
@@ -19,6 +20,7 @@ export default {
                 page = 1;
             }
             try {
+                this.isLoading = true;
                 let { data } = await axios.get(`/books?page=${page}`, {
                     headers: {
                         Authorization:
@@ -31,6 +33,8 @@ export default {
                 this.currentPage = data.books.current_page;
             } catch (error) {
                 console.log(error);
+            } finally {
+                this.isLoading = false;
             }
         },
     },
@@ -68,78 +72,88 @@ export default {
                 >
             </div>
 
-            <table
-                class="table table-bordered table-hover data-table"
-                border="1"
-            >
-                <thead>
-                    <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Book Name</th>
-                        <th scope="col">Book Price</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Genre</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(book, index) in books">
-                        <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ book.bookName }}</td>
-                        <td>{{ book.price }}</td>
-                        <td>{{ book.description }}</td>
-                        <td>{{ book.name }}</td>
-                        <td align="center">
-                            <img
-                                :src="`http://127.0.0.1:8000/images/${book.image}`"
-                                alt="img"
-                                style="width: 180px; height: 100px"
-                            />
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-outline-primary"
-                                >Generate PDF</a
-                            >
-                            <a href="#" class="btn btn-outline-warning">Edit</a>
-                            <a href="#" class="btn btn-outline-danger"
-                                >Delete</a
-                            >
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pagination-div text-center mt-5">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a
-                            class="page-link"
-                            href="#"
-                            @click.prevent="fetchBooks(currentPage - 1)"
-                            v-if="currentPage > 1"
-                            >Previous</a
-                        >
-                    </li>
-                    <div class="" v-for="index in lastPage">
+            <div class="d-flex justify-content-center" v-if="isLoading">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <div class="" v-if="!isLoading">
+                <table
+                    class="table table-bordered table-hover data-table"
+                    border="1"
+                >
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Book Name</th>
+                            <th scope="col">Book Price</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(book, index) in books">
+                            <th scope="row">{{ index + 1 }}</th>
+                            <td>{{ book.bookName }}</td>
+                            <td>{{ book.price }}</td>
+                            <td>{{ book.description }}</td>
+                            <td>{{ book.name }}</td>
+                            <td align="center">
+                                <img
+                                    :src="`http://127.0.0.1:8000/images/${book.image}`"
+                                    alt="img"
+                                    style="width: 180px; height: 100px"
+                                />
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-outline-primary"
+                                    >Generate PDF</a
+                                >
+                                <a href="#" class="btn btn-outline-warning"
+                                    >Edit</a
+                                >
+                                <a href="#" class="btn btn-outline-danger"
+                                    >Delete</a
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination-div text-center mt-5">
+                    <ul class="pagination justify-content-center">
                         <li class="page-item">
                             <a
                                 class="page-link"
                                 href="#"
-                                @click.prevent="fetchBooks(index)"
-                                >{{ index }}</a
+                                @click.prevent="fetchBooks(currentPage - 1)"
+                                v-if="currentPage > 1"
+                                >Previous</a
                             >
                         </li>
-                    </div>
-                    <li class="page-item">
-                        <a
-                            class="page-link"
-                            href="#"
-                            @click.prevent="fetchBooks(currentPage + 1)"
-                            v-if="currentPage != lastPage"
-                            >Next</a
-                        >
-                    </li>
-                </ul>
+                        <div class="" v-for="index in lastPage">
+                            <li class="page-item">
+                                <a
+                                    class="page-link"
+                                    href="#"
+                                    @click.prevent="fetchBooks(index)"
+                                    >{{ index }}</a
+                                >
+                            </li>
+                        </div>
+                        <li class="page-item">
+                            <a
+                                class="page-link"
+                                href="#"
+                                @click.prevent="fetchBooks(currentPage + 1)"
+                                v-if="currentPage != lastPage"
+                                >Next</a
+                            >
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

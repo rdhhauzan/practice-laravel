@@ -8,18 +8,26 @@ export default {
     },
     data() {
         return {
-            countBooks: 0,
+            countBooks: null,
+            isLoading: false,
         };
     },
     methods: {
         async ShowBooks() {
-            let { data } = await axios.get("/books", {
-                headers: {
-                    Authorization:
-                        "Bearer " + localStorage.getItem("access_token"),
-                },
-            });
-            this.countBooks = data.books.total;
+            try {
+                this.isLoading = true;
+                let { data } = await axios.get("/books", {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("access_token"),
+                    },
+                });
+                this.countBooks = data.books.total;
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.isLoading = false;
+            }
         },
     },
     beforeMount() {
@@ -38,6 +46,11 @@ export default {
                 <div class="card-body">
                     <h5 class="card-title">Total Books</h5>
                     <p class="card-text">
+                        <div class="d-flex justify-content-center" v-if="isLoading">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                         {{ this.countBooks }}
                     </p>
                 </div>
