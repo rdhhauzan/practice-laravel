@@ -48,7 +48,7 @@ export default {
           ><i class="fas fa-lock fa-fw me-3"></i
           ><span>Add Book</span></RouterLink
         >
-        <RouterLink to="#" :class="getActiveNavLink('Order')"
+        <RouterLink to="/orders" :class="getActiveNavLink('Orders')"
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Order</span></RouterLink
         >
