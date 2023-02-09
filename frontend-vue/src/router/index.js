@@ -4,6 +4,7 @@ import LoginView from "../views/LoginView.vue";
 import AdminShowBooks from "../views/AdminShowBooks.vue";
 import AdminAddBook from "../views/AdminAddBook.vue";
 import AdminShowOrder from "../views/AdminShowOrder.vue";
+import AdminShowGenres from "../views/AdminShowGenres.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: "/orders",
       name: "Orders",
       component: AdminShowOrder,
+    },
+    {
+      path: "/genres",
+      name: "ShowGenres",
+      component: AdminShowGenres,
     },
   ],
 });
