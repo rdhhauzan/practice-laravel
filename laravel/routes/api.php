@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BooksController;
 use App\Http\Controllers\Api\GenresController;
+use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/books', [BooksController::class, 'index']);
@@ -38,4 +40,7 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
     Route::get('/genre/update/{id}', [GenresController::class, 'edit']);
     Route::get('/genre/delete/{id}', [GenresController::class, 'delete']);
     Route::post('/genre/update/{id}', [GenresController::class, 'update']);
+
+    Route::get('/users', [UsersController::class, 'index']);
+    Route::post('/user', [UsersController::class, 'store']);
 });

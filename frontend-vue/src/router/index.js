@@ -6,6 +6,7 @@ import AdminAddBook from "../views/AdminAddBook.vue";
 import AdminShowOrder from "../views/AdminShowOrder.vue";
 import AdminShowGenres from "../views/AdminShowGenres.vue";
 import AdminAddGenre from "../views/AdminAddGenre.vue";
+import AdminShowUsers from "../views/AdminShowUsers.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,14 @@ const router = createRouter({
       component: AdminAddGenre,
       meta: {
         title: "Admin Add Book Page",
+      },
+    },
+    {
+      path: "/users",
+      name: "ShowUsers",
+      component: AdminShowUsers,
+      meta: {
+        title: "Admin User list page",
       },
     },
   ],

@@ -60,7 +60,7 @@ export default {
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Add Genre</span></RouterLink
         >
-        <RouterLink to="#" :class="getActiveNavLink('ShowUsers')"
+        <RouterLink to="/users" :class="getActiveNavLink('ShowUsers')"
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Show Users</span></RouterLink
         >

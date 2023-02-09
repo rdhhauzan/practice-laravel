@@ -4,36 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 
-class AuthController extends Controller
+class UsersController extends Controller
 {
-    public function login(Request $request)
+    public function index()
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email:dns'],
-            'password' => ['required']
-        ]);
+        $users = DB::table('users')->select('users.id', 'users.email', 'users.name', 'users.role')->get();
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Invalid Email/Password'], 400);
-        }
-
-        $user = Auth::user();
-        return response()->json(['access_token' => $token, 'email' => $user->email, 'id' => $user->id, 'role' => $user->role]);
+        return response()->json(compact('users'));
     }
 
-    public function register(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|unique:users',
             'password' => 'required',
+            'role' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -44,9 +35,11 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ];
 
         DB::table('users')->insert($data);
-        return response()->json("Register Success!");
+        return response()->json("User Add Successfully!");
+
     }
 }
