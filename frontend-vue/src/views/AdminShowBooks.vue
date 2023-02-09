@@ -23,6 +23,7 @@ export default {
       },
       image: "",
       genres: [],
+      genreLoading: false,
     };
   },
   methods: {
@@ -149,7 +150,7 @@ export default {
 
     async fetchGenres() {
       try {
-        this.isLoading = true;
+        this.genreLoading = true;
         let { data } = await axios.get(`/genres`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -160,7 +161,7 @@ export default {
       } catch (error) {
         console.log(error);
       } finally {
-        this.isLoading = false;
+        this.genreLoading = false;
       }
     },
 
@@ -305,78 +306,95 @@ export default {
               ></button>
             </div>
             <div class="modal-body">
-              <form
-                @submit.prevent="submitUpdateBook(showBook.id)"
-                enctype="multipart/form-data"
-              >
-                <div class="form-floating my-3">
-                  <input
-                    type="text"
-                    class="form-control rounded-top"
-                    name="name"
-                    id="name"
-                    required
-                    placeholder="Name"
-                    v-model="showBook.name"
-                  />
-                  <label for="name">Book Name</label>
-                </div>
-                <div class="form-floating my-3">
-                  <input
-                    type="number"
-                    class="form-control"
-                    name="price"
-                    id="price"
-                    required
-                    placeholder="10000"
-                    v-model="showBook.price"
-                  />
-                  <label for="price">Book Price</label>
-                </div>
-                <div class="form-floating my-3">
-                  <input
-                    type="text"
-                    class="form-control rounded-bottom"
-                    name="description"
-                    id="description"
-                    required
-                    placeholder="description"
-                    v-model="showBook.description"
-                  />
-                  <label for="description">Description</label>
-                </div>
+              <div class="" v-if="!genreLoading">
+                <form
+                  @submit.prevent="submitUpdateBook(showBook.id)"
+                  enctype="multipart/form-data"
+                >
+                  <div class="form-floating my-3">
+                    <input
+                      type="text"
+                      class="form-control rounded-top"
+                      name="name"
+                      id="name"
+                      required
+                      placeholder="Name"
+                      v-model="showBook.name"
+                    />
+                    <label for="name">Book Name</label>
+                  </div>
+                  <div class="form-floating my-3">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="price"
+                      id="price"
+                      required
+                      placeholder="10000"
+                      v-model="showBook.price"
+                    />
+                    <label for="price">Book Price</label>
+                  </div>
+                  <div class="form-floating my-3">
+                    <input
+                      type="text"
+                      class="form-control rounded-bottom"
+                      name="description"
+                      id="description"
+                      required
+                      placeholder="description"
+                      v-model="showBook.description"
+                    />
+                    <label for="description">Description</label>
+                  </div>
 
-                <div class="form-floating my-3">
-                  <input
-                    type="file"
-                    class="form-control rounded-bottom"
-                    name="image"
-                    id="image"
-                    placeholder="image"
-                    v-on:change="onChange"
-                  />
-                  <label for="image">Image</label>
-                </div>
+                  <div class="form-floating my-3">
+                    <input
+                      type="file"
+                      class="form-control rounded-bottom"
+                      name="image"
+                      id="image"
+                      placeholder="image"
+                      v-on:change="onChange"
+                    />
+                    <label for="image">Image</label>
+                  </div>
 
-                <div class="form-floating">
-                  <select
-                    class="form-select"
-                    id="floatingSelect"
-                    aria-label="Floating label select example"
-                    name="genreId"
-                    v-model="showBook.genreId"
+                  <div class="form-floating">
+                    <select
+                      class="form-select"
+                      id="floatingSelect"
+                      aria-label="Floating label select example"
+                      name="genreId"
+                      v-model="showBook.genreId"
+                    >
+                      <option selected disabled>--- SELECT GENRE ---</option>
+                      <option
+                        :value="genre.id"
+                        v-for="(genre, index) in genres"
+                      >
+                        {{ genre.name }}
+                      </option>
+                    </select>
+                    <label for="floatingSelect">Genre</label>
+                  </div>
+                  <button
+                    class="w-100 btn btn-lg btn-danger my-3"
+                    type="submit"
                   >
-                    <option selected disabled>--- SELECT GENRE ---</option>
-                    <option :value="genre.id" v-for="(genre, index) in genres">
-                      {{ genre.name }}
-                    </option>
-                  </select>
-                  <label for="floatingSelect">Genre</label>
+                    Edit Book
+                  </button>
+                </form>
+              </div>
+              <div class="d-flex justify-content-center" v-if="genreLoading">
+                <div
+                  class="spinner-border"
+                  role="status"
+                  style="width: 5rem; height: 5rem"
+                >
+                  <span class="visually-hidden">Loading...</span>
                 </div>
-                <button class="w-100 btn btn-lg btn-danger my-3" type="submit">
-                  Edit Book
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>

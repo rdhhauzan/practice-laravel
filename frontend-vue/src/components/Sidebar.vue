@@ -44,7 +44,7 @@ export default {
         <RouterLink to="/books" :class="getActiveNavLink('ShowBooks')">
           <i class="fas fa-chart-area fa-fw me-3"></i><span>Show Books</span>
         </RouterLink>
-        <RouterLink to="#" :class="getActiveNavLink('AddBook')"
+        <RouterLink to="/book/add" :class="getActiveNavLink('AddBook')"
           ><i class="fas fa-lock fa-fw me-3"></i
           ><span>Add Book</span></RouterLink
         >
