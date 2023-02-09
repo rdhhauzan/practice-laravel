@@ -150,7 +150,7 @@ export default {
                   <a
                     href="#"
                     class="btn btn-outline-danger"
-                    @click.prevent="deleteBook(book.bookId)"
+                    @click.prevent="deleteGenre(genre.id)"
                     >Delete</a
                   >
                 </td>

@@ -56,7 +56,7 @@ export default {
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Show Genres</span></RouterLink
         >
-        <RouterLink to="#" :class="getActiveNavLink('AddGenre')"
+        <RouterLink to="/genre/add" :class="getActiveNavLink('AddGenre')"
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Add Genre</span></RouterLink
         >
