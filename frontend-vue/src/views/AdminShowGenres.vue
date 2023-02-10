@@ -1,4 +1,6 @@
 <script>
+import $ from "jquery";
+import "datatables.net";
 import axios from "../config/apis";
 import Sidebar from "../components/Sidebar.vue";
 import Swal from "sweetalert2";
@@ -28,11 +30,54 @@ export default {
         });
         console.log(data);
         this.genres = data;
+        this.initDataTable();
       } catch (error) {
         console.log(error);
       } finally {
         this.isLoading = false;
       }
+    },
+
+    initDataTable() {
+      $(document).ready(() => {
+        $("#mytable").dataTable({
+          data: this.genres,
+          columns: [
+            { data: "id" },
+            { data: "name" },
+            {
+              data: null,
+              render: function (data, type, row) {
+                return `<button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-id="${row.id}"
+                  >
+                    Edit
+                  </button>
+                  <a
+                    href="#"
+                    class="btn btn-outline-danger"
+                    data-id="${row.id}"
+                    >Delete</a
+                  >
+                  `;
+              },
+            },
+          ],
+        });
+        // Event Listener for custom button
+        $("#mytable").on("click", ".btn-outline-primary", (event) => {
+          const id = $(event.currentTarget).data("id");
+          this.showGenreDetail(id);
+        });
+        $("#mytable").on("click", ".btn-outline-danger", (event) => {
+          const id = $(event.currentTarget).data("id");
+          this.deleteGenre(id);
+        });
+      });
     },
 
     async showGenreDetail(id) {
@@ -53,8 +98,8 @@ export default {
       }
     },
 
-    async submitUpdate() {
-      await axios
+    submitUpdate() {
+      axios
         .post(
           `/genre/update/${this.genre.id}`,
           { name: this.genre.name },
@@ -124,7 +169,11 @@ export default {
 
       <div class="" v-if="!isLoading">
         <div class="" v-if="genres.length > 0">
-          <table class="table table-bordered table-hover data-table" border="1">
+          <table
+            class="table table-bordered table-hover"
+            border="1"
+            id="mytable"
+          >
             <thead>
               <tr>
                 <th scope="col">No.</th>
@@ -138,7 +187,7 @@ export default {
                 <td>{{ genre.name }}</td>
 
                 <td>
-                  <button
+                  <!-- <button
                     type="button"
                     class="btn btn-outline-primary"
                     data-bs-toggle="modal"
@@ -146,13 +195,13 @@ export default {
                     @click.prevent="showGenreDetail(genre.id)"
                   >
                     Edit
-                  </button>
-                  <a
+                  </button> -->
+                  <!-- <a
                     href="#"
                     class="btn btn-outline-danger"
                     @click.prevent="deleteGenre(genre.id)"
                     >Delete</a
-                  >
+                  > -->
                 </td>
               </tr>
             </tbody>
