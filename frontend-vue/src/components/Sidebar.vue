@@ -1,5 +1,7 @@
 <script>
 import { RouterLink } from "vue-router";
+import Swal from "sweetalert2";
+
 export default {
   name: "Sidebar",
   methods: {
@@ -19,6 +21,15 @@ export default {
     openSidebar() {
       document.getElementById("sidebar-menu").style.display = "";
       document.getElementById("sidebar-menu").style.width = "180px";
+    },
+    logout() {
+      localStorage.clear();
+      Swal.fire({
+        icon: "success",
+        title: "Logout Success",
+        text: `Logout Successfully!`,
+      });
+      this.$router.push("/login");
     },
   },
 };
@@ -64,11 +75,14 @@ export default {
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Show Users</span></RouterLink
         >
-        <RouterLink to="#" :class="getActiveNavLink('AddUser')"
+        <RouterLink to="/user/add" :class="getActiveNavLink('AddUser')"
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Add User</span></RouterLink
         >
-        <RouterLink to="#" :class="getActiveNavLink('')"
+        <RouterLink
+          to="#"
+          @click.prevent="logout()"
+          :class="getActiveNavLink('')"
           ><i class="fas fa-chart-line fa-fw me-3"></i
           ><span>Logout</span></RouterLink
         >

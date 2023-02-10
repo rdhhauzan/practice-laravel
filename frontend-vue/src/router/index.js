@@ -7,6 +7,7 @@ import AdminShowOrder from "../views/AdminShowOrder.vue";
 import AdminShowGenres from "../views/AdminShowGenres.vue";
 import AdminAddGenre from "../views/AdminAddGenre.vue";
 import AdminShowUsers from "../views/AdminShowUsers.vue";
+import AdminAddUser from "../views/AdminAddUser.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +74,14 @@ const router = createRouter({
       component: AdminShowUsers,
       meta: {
         title: "Admin User list page",
+      },
+    },
+    {
+      path: "/user/add",
+      name: "AddUser",
+      component: AdminAddUser,
+      meta: {
+        title: "Admin Add User Page",
       },
     },
   ],
