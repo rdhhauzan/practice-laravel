@@ -1,4 +1,6 @@
 <script>
+import $ from "jquery";
+import "datatables.net";
 import axios from "../config/apis";
 import Sidebar from "../components/Sidebar.vue";
 import Swal from "sweetalert2";
@@ -10,8 +12,6 @@ export default {
   data() {
     return {
       books: [],
-      lastPage: 0,
-      currentPage: 0,
       isLoading: false,
       search: "",
       showBook: {
@@ -39,14 +39,74 @@ export default {
           },
         });
         console.log(data);
-        this.books = data.books.data;
-        this.lastPage = data.books.last_page;
-        this.currentPage = data.books.current_page;
+        this.books = data.books;
+        this.initDataTable();
       } catch (error) {
         console.log(error);
       } finally {
         this.isLoading = false;
       }
+    },
+
+    initDataTable() {
+      $(document).ready(() => {
+        $("#mytable").dataTable({
+          data: this.books,
+          columns: [
+            { data: "id" },
+            { data: "bookName" },
+            { data: "price" },
+            { data: "description" },
+            { data: "name" },
+            {
+              data: "image",
+              render: function (data, type, row, meta) {
+                return `<img src="http://127.0.0.1:8000/images/${data}" alt="img"
+                    style="width: 180px; height: 100px"/>`;
+              },
+            },
+            {
+              data: null,
+              render: function (data, type, row) {
+                return `<a
+                    href="#"
+                    class="btn btn-outline-primary generate-pdf"
+                    data-id="${row.bookId}"
+                    >Generate PDF</a
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary edit"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-id="${row.bookId}"
+                  >
+                    Edit
+                  </button>
+                  <a
+                    href="#"
+                    class="btn btn-outline-danger delete"
+                    data-id="${row.bookId}"
+                    >Delete</a
+                  >`;
+              },
+            },
+          ],
+        });
+
+        $("#mytable").on("click", ".generate-pdf", (event) => {
+          const id = $(event.currentTarget).data("id");
+          this.generateOneDataPdf(id);
+        });
+        $("#mytable").on("click", ".edit", (event) => {
+          const id = $(event.currentTarget).data("id");
+          this.editBook(id);
+        });
+        $("#mytable").on("click", ".delete", (event) => {
+          const id = $(event.currentTarget).data("id");
+          this.deleteBook(id);
+        });
+      });
     },
 
     async generatePdf() {
@@ -264,7 +324,7 @@ export default {
   <div style="margin-top: 58px">
     <div class="container pt-4">
       <h2>Book List</h2>
-      <form @submit.prevent="searchBooks()">
+      <!-- <form @submit.prevent="searchBooks()">
         <div class="input-group mb-3 w-25">
           <input
             type="text"
@@ -276,7 +336,7 @@ export default {
             Search
           </button>
         </div>
-      </form>
+      </form> -->
       <div class="my-3">
         <a class="btn btn-outline-primary" @click.prevent="generatePdf()"
           >Generate PDF</a
@@ -415,7 +475,11 @@ export default {
 
       <div class="" v-if="!isLoading">
         <div class="" v-if="books.length > 0">
-          <table class="table table-bordered table-hover data-table" border="1">
+          <table
+            class="table table-bordered table-hover data-table"
+            border="1"
+            id="mytable"
+          >
             <thead>
               <tr>
                 <th scope="col">No.</th>
@@ -442,7 +506,7 @@ export default {
                   />
                 </td>
                 <td>
-                  <a
+                  <!-- <a
                     href="#"
                     class="btn btn-outline-primary"
                     @click.prevent="generateOneDataPdf(book.bookId)"
@@ -462,7 +526,7 @@ export default {
                     class="btn btn-outline-danger"
                     @click.prevent="deleteBook(book.bookId)"
                     >Delete</a
-                  >
+                  > -->
                 </td>
               </tr>
             </tbody>
