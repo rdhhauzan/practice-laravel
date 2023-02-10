@@ -506,27 +506,7 @@ export default {
                   />
                 </td>
                 <td>
-                  <!-- <a
-                    href="#"
-                    class="btn btn-outline-primary"
-                    @click.prevent="generateOneDataPdf(book.bookId)"
-                    >Generate PDF</a
-                  >
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    @click.prevent="editBook(book.bookId)"
-                  >
-                    Edit
-                  </button>
-                  <a
-                    href="#"
-                    class="btn btn-outline-danger"
-                    @click.prevent="deleteBook(book.bookId)"
-                    >Delete</a
-                  > -->
+                  <!-- Button, Render from method initDataTable -->
                 </td>
               </tr>
             </tbody>

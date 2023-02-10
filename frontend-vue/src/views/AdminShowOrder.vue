@@ -1,4 +1,6 @@
 <script>
+import $ from "jquery";
+import "datatables.net";
 import axios from "../config/apis";
 import Sidebar from "../components/Sidebar.vue";
 import Swal from "sweetalert2";
@@ -21,21 +23,17 @@ export default {
     };
   },
   methods: {
-    async fetchOrders(page) {
-      if (!page) {
-        page = 1;
-      }
+    async fetchOrders() {
       try {
         this.isLoading = true;
-        let { data } = await axios.get(`/orders?page=${page}`, {
+        let { data } = await axios.get(`/orders`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
           },
         });
         console.log(data);
-        this.orders = data.data;
-        this.lastPage = data.last_page;
-        this.currentPage = data.current_page;
+        this.initDataTable();
+        this.orders = data;
       } catch (error) {
         console.log(error);
       } finally {
@@ -44,6 +42,7 @@ export default {
     },
 
     async fetchOrder(userId, bookId) {
+      console.log(userId, bookId);
       try {
         this.isLoading = true;
         let { data } = await axios.get(`/order/edit/${userId}/${bookId}`, {
@@ -60,6 +59,42 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    initDataTable() {
+      const self = this;
+      $(document).ready(() => {
+        $("#mytable").dataTable({
+          data: this.orders,
+          columns: [
+            { data: "email" },
+            { data: "bookName" },
+            { data: "bookPrice" },
+            { data: "Status" },
+            {
+              data: null,
+              render: function (data, type, row) {
+                return `<button
+                    class="btn btn-outline-warning edit-order"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-userid = "${row.userId}"
+                    data-bookid = "${row.bookId}"
+                  >
+                    Edit Order
+                  </button>`;
+              },
+            },
+          ],
+        });
+
+        $("#mytable").on("click", ".edit-order", (event) => {
+          const userId = $(event.currentTarget).data("userid");
+          const bookId = $(event.currentTarget).data("bookid");
+          this.fetchOrder(userId, bookId);
+        });
+      });
     },
 
     async submitUpdate() {
@@ -172,10 +207,13 @@ export default {
 
       <div class="" v-if="!isLoading">
         <div class="" v-if="orders.length > 0">
-          <table class="table table-bordered table-hover data-table" border="1">
+          <table
+            id="mytable"
+            class="table table-bordered table-hover data-table"
+            border="1"
+          >
             <thead>
               <tr>
-                <th scope="col">No.</th>
                 <th scope="col">User Email</th>
                 <th scope="col">Book Name</th>
                 <th scope="col">Price</th>
@@ -185,7 +223,6 @@ export default {
             </thead>
             <tbody>
               <tr v-for="(order, index) in orders">
-                <th scope="row">{{ index + 1 }}</th>
                 <td>{{ order.email }}</td>
                 <td>{{ order.bookName }}</td>
                 <td>{{ order.bookPrice }}</td>
@@ -217,7 +254,7 @@ export default {
                   >
                 </td>
                 <td>
-                  <button
+                  <!-- <button
                     class="btn btn-outline-warning"
                     type="button"
                     data-bs-toggle="modal"
@@ -225,7 +262,7 @@ export default {
                     @click.prevent="fetchOrder(order.userId, order.bookId)"
                   >
                     Edit Order
-                  </button>
+                  </button> -->
                 </td>
               </tr>
             </tbody>

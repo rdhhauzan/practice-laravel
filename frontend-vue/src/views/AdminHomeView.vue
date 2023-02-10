@@ -8,7 +8,7 @@ export default {
     },
     data() {
         return {
-            countBooks: null,
+            countBooks: [],
             isLoading: false,
         };
     },
@@ -22,7 +22,7 @@ export default {
                             "Bearer " + localStorage.getItem("access_token"),
                     },
                 });
-                this.countBooks = data.books.total;
+                this.countBooks = data.books;
             } catch (error) {
                 console.log(error);
             } finally {
@@ -51,7 +51,7 @@ export default {
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
-                        {{ this.countBooks }}
+                        {{ this.countBooks.length }}
                     </p>
                 </div>
             </div>
