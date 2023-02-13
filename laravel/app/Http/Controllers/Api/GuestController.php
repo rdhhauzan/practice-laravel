@@ -1,37 +1,37 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Snap;
 use App\Mail\Email;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class GuestController extends Controller
 {
     public function index(Request $request)
     {
-        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->paginate(10);
-        return view('Guest\GuestBooks', compact('books'));
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->get();
+        return response()->json(compact('books'));
     }
 
     public function search(Request $request)
     {
-        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->where('books.name', 'like', '%' . $request->input('name') . '%')->paginate(10);
+        $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*', 'books.image')->where('books.name', 'like', '%' . $request->input('name') . '%')->get();
 
-        return view('Guest\GuestBooks', compact('books'));
+        return response()->json(compact('books'));
+
     }
 
     public function buy($id)
     {
-        // $book = DB::table('books')->where('id', $id)->get();
         $book = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->where('books.id', $id)->get();
         $bookId = $id;
-        // dd($book[0]->price);
+
         Config::$serverKey = 'SB-Mid-server-nU1WKAwolq2Zzv-eKVov7L65';
         Config::$isProduction = false;
 
@@ -48,8 +48,7 @@ class GuestController extends Controller
             )
         );
 
-        // dd($book);
-        return view('Guest\payment', compact('snapToken', 'bookId', 'book'));
+        return response()->json(compact('snapToken', 'bookId', 'book'));
     }
 
     public function storeBook(Request $request)
@@ -59,18 +58,18 @@ class GuestController extends Controller
 
         DB::table('userbook')->insert([
             'bookId' => $bookId,
-            'userId' => $userId,
+            'userId' => $userId
         ]);
 
         $to_email = Auth::user()->email;
         Mail::to($to_email)->send(new Email());
 
-        return redirect('/')->with('success', 'Book success to buy');
+        return response()->json('Success Buy Book!');
     }
 
     public function getUserBook()
     {
-        $books = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription', 'books.image', 'userbook.status AS Status')->where('userId', Auth::user()->id)->paginate(10);
+        $books = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription', 'books.image', 'userbook.status AS Status')->where('userId', Auth::user()->id)->get();
 
         $countBooks = DB::table('userbook')->join('books', 'userbook.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription')->where('userId', Auth::user()->id)->get();
 
@@ -81,8 +80,7 @@ class GuestController extends Controller
         }
         $countPrices = "Rp " . number_format($countPrices, 2, ',', '.');
 
-        // dd($books);
-        return view('Guest\userBooks', compact('books', 'countBooks', 'countPrices'));
+        return response()->json(compact('books', 'countBooks', 'countPrices'));
     }
 
     public function addWishlist($id)
@@ -92,20 +90,20 @@ class GuestController extends Controller
             'userId' => Auth::user()->id
         ]);
 
-        return redirect('/guest/wishlist')->with('success', 'Book Add to wishlist Successfully');
+        return response()->json('Book Add to wishlist Successfully!');
     }
 
     public function getWishlist()
     {
         $books = DB::table('wishlist')->join('books', 'wishlist.bookId', '=', 'books.id')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.name AS bookName', 'books.price AS bookPrice', 'genre.name AS genreName', 'books.description AS bookDescription', 'books.id AS bookId')->where('userId', Auth::user()->id)->get();
 
-        return view('Guest\Wishlist', compact('books'));
+        return response()->json(compact('books'));
     }
 
     public function deleteWishlist($id)
     {
         DB::table('wishlist')->where('bookId', $id)->where('userId', Auth::user()->id)->delete();
 
-        return redirect('/guest/wishlist')->with('success', 'Wishlist Delete Successfully!');
+        return response()->json('Wishlist Delete Successfully!');
     }
 }

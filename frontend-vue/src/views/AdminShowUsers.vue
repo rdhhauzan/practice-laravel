@@ -1,4 +1,6 @@
 <script>
+import $ from "jquery";
+import "datatables.net";
 import axios from "../config/apis";
 import Sidebar from "../components/Sidebar.vue";
 import Swal from "sweetalert2";
@@ -22,7 +24,6 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
           },
         });
-        // console.log(data);
         this.users = data.users;
         console.log(this.users);
         console.log(this.users.length);
@@ -32,6 +33,10 @@ export default {
         this.isLoading = false;
       }
     },
+
+    initDataTable() {
+
+    }
   },
   beforeMount() {
     this.fetchUsers();

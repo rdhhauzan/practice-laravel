@@ -8,6 +8,7 @@ import AdminShowGenres from "../views/AdminShowGenres.vue";
 import AdminAddGenre from "../views/AdminAddGenre.vue";
 import AdminShowUsers from "../views/AdminShowUsers.vue";
 import AdminAddUser from "../views/AdminAddUser.vue";
+import GuestHomeView from "../views/GuestHomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,6 +85,14 @@ const router = createRouter({
         title: "Admin Add User Page",
       },
     },
+    {
+      path: "/guest",
+      name: "GuestHome",
+      component: GuestHomeView,
+      meta: {
+        title: "Guest Home",
+      },
+    },
   ],
 });
 
@@ -96,6 +105,12 @@ router.beforeEach((to, from) => {
     localStorage.getItem("role") == "admin"
   ) {
     return { name: "AdminHome" };
+  } else if (
+    localStorage.getItem("access_token") &&
+    to.fullPath == "/login" &&
+    localStorage.getItem("role") == "admin"
+  ) {
+    return { name: "GuestHome" };
   }
 
   const title = to.meta.title;

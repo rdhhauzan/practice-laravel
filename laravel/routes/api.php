@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BooksController;
 use App\Http\Controllers\Api\GenresController;
+use App\Http\Controllers\Api\GuestController;
 use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,4 +44,15 @@ Route::middleware(['jwt.auth', 'admin'])->group(function () {
 
     Route::get('/users', [UsersController::class, 'index']);
     Route::post('/user', [UsersController::class, 'store']);
+});
+
+Route::middleware(['jwt.auth', 'Guest'])->group(function () {
+    Route::get('/guest/books', [GuestController::class, 'index']);
+    Route::get('/guest/books/search', [GuestController::class, 'search'])->name('search');
+    Route::get('/guest/userBooks', [GuestController::class, 'getUserBook']);
+    Route::get('/guest/book/buy/{id}', [GuestController::class, 'buy']);
+    Route::post('/guest/book/add', [GuestController::class, 'storeBook'])->name('storeBook');
+    Route::post('/guest/wishlist/add/{id}', [GuestController::class, 'addWishlist']);
+    Route::get('/guest/wishlist', [GuestController::class, 'getWishlist']);
+    Route::get('/guest/wishlist/delete/{id}', [GuestController::class, 'deleteWishlist']);
 });
