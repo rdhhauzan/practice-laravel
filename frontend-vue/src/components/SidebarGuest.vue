@@ -48,9 +48,25 @@ export default {
         <RouterLink
           to="/guest"
           aria-current="true"
-          :class="getActiveNavLink('AdminHome')"
+          :class="getActiveNavLink('GuestHome')"
         >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dashboard</span>
+        </RouterLink>
+        <RouterLink
+          to="/guest/books"
+          aria-current="true"
+          :class="getActiveNavLink('GuestShowBooks')"
+        >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i
+          ><span>Show Books</span>
+        </RouterLink>
+        <RouterLink
+          to="/guest/userBooks"
+          aria-current="true"
+          :class="getActiveNavLink('GuestUserBooks')"
+        >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i
+          ><span>Your Books</span>
         </RouterLink>
         <RouterLink
           to="#"

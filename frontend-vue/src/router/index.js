@@ -9,6 +9,8 @@ import AdminAddGenre from "../views/AdminAddGenre.vue";
 import AdminShowUsers from "../views/AdminShowUsers.vue";
 import AdminAddUser from "../views/AdminAddUser.vue";
 import GuestHomeView from "../views/GuestHomeView.vue";
+import GuestShowBooks from "../views/GuestShowBooks.vue";
+import GuestUserBooks from "../views/GuestUserBooks.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -91,6 +93,22 @@ const router = createRouter({
       component: GuestHomeView,
       meta: {
         title: "Guest Home",
+      },
+    },
+    {
+      path: "/guest/books",
+      name: "GuestShowBooks",
+      component: GuestShowBooks,
+      meta: {
+        title: "Guest Books List Page",
+      },
+    },
+    {
+      path: "/guest/userBooks",
+      name: "GuestUserBooks",
+      component: GuestUserBooks,
+      meta: {
+        title: "Guest User books list Page",
       },
     },
   ],
