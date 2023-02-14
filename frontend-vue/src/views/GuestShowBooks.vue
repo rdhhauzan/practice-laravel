@@ -66,8 +66,6 @@ export default {
                   <button
                     type="button"
                     class="btn btn-outline-secondary add-wishlist"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
                     data-id="${row.bookId}"
                   >
                     Add to Wishlist
@@ -122,8 +120,6 @@ export default {
                   title: "Buy Success",
                   text: `Book Success to buy!`,
                 });
-
-                this.$router.push("/guest/userBooks");
               });
           },
         });
