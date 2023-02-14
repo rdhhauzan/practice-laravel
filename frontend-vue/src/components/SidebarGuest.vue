@@ -69,6 +69,14 @@ export default {
           ><span>Your Books</span>
         </RouterLink>
         <RouterLink
+          to="/guest/wishlist"
+          aria-current="true"
+          :class="getActiveNavLink('GuestWishlist')"
+        >
+          <i class="fas fa-tachometer-alt fa-fw me-3"></i
+          ><span>Your Wishlist</span>
+        </RouterLink>
+        <RouterLink
           to="#"
           @click.prevent="logout()"
           :class="getActiveNavLink('')"

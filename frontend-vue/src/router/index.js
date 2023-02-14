@@ -11,6 +11,7 @@ import AdminAddUser from "../views/AdminAddUser.vue";
 import GuestHomeView from "../views/GuestHomeView.vue";
 import GuestShowBooks from "../views/GuestShowBooks.vue";
 import GuestUserBooks from "../views/GuestUserBooks.vue";
+import GuestShowWishlist from "../views/GuestShowWishlist.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -109,6 +110,14 @@ const router = createRouter({
       component: GuestUserBooks,
       meta: {
         title: "Guest User books list Page",
+      },
+    },
+    {
+      path: "/guest/wishlist",
+      name: "GuestWishlist",
+      component: GuestShowWishlist,
+      meta: {
+        title: "Guest User Wishlist Page",
       },
     },
   ],

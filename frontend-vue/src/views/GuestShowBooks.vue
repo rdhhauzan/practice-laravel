@@ -3,6 +3,7 @@ import Sidebar from "../components/SidebarGuest.vue";
 import $ from "jquery";
 import "datatables.net";
 import axios from "../config/apis";
+import Swal from "sweetalert2";
 
 export default {
   name: "GuestShowBooks",
@@ -58,12 +59,10 @@ export default {
               targets: "no-sort",
               orderable: false,
               render: function (data, type, row) {
-                return `<a
-                    href="#"
-                    class="btn btn-outline-danger buy-book
+                return `<button
+                    class="btn btn-outline-danger buy-book"
                     data-id="${row.bookId}"
-                    >Buy Book</a
-                  >
+                    >Buy Book</button>
                   <button
                     type="button"
                     class="btn btn-outline-secondary add-wishlist"
@@ -79,7 +78,82 @@ export default {
           ],
         });
 
+        $("#mytable").on("click", ".add-wishlist", (event) => {
+          const id = $(event.currentTarget).data("id");
+          this.addToWishlist(id);
+        });
+
+        $("#mytable").on("click", ".buy-book", (event) => {
+          const id = $(event.currentTarget).data("id");
+          console.log(id, "button<<<<<<<<<<");
+          this.buyBook(id);
+        });
       });
+    },
+
+    async buyBook(id) {
+      try {
+        let { data } = await axios.get(`/guest/book/buy/${id}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        });
+
+        let snapToken = data.snapToken;
+
+        snap.pay(snapToken, {
+          onSuccess: async function (result) {
+            console.log("success!");
+
+            await axios
+              .post(
+                `/guest/book/add`,
+                { bookId: id },
+                {
+                  headers: {
+                    Authorization:
+                      "Bearer " + localStorage.getItem("access_token"),
+                  },
+                }
+              )
+              .then(() => {
+                Swal.fire({
+                  icon: "success",
+                  title: "Buy Success",
+                  text: `Book Success to buy!`,
+                });
+
+                this.$router.push("/guest/userBooks");
+              });
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async addToWishlist(id) {
+      try {
+        await axios
+          .post(
+            `/guest/wishlist/add/${id}`,
+            { id: id },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("access_token"),
+              },
+            }
+          )
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Add Success",
+              text: `Book Add to Wishlist Successfully!`,
+            });
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   beforeMount() {

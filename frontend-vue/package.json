@@ -13,7 +13,6 @@
         "bootstrap": "^5.2.3",
         "bootstrap-vue": "^2.23.1",
         "datatables.net": "^1.13.2",
-        "jquery": "^3.6.3",
         "pinia": "^2.0.23",
         "popper.js": "^1.16.1",
         "vue": "^3.2.41",

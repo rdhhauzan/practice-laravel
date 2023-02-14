@@ -29,6 +29,7 @@ export default {
         console.log(data.countPrices);
         this.userBooks = data.books;
         this.totalPrices = data.countPrices;
+        this.initDataTable();
       } catch (error) {
         console.log(error);
       } finally {
@@ -37,8 +38,29 @@ export default {
     },
 
     initDataTable() {
-        
-    }
+      $(document).ready(() => {
+        $("#mytable").dataTable({
+          data: this.userBooks,
+          columns: [
+            { data: "bookName" },
+            { data: "bookDescription" },
+            { data: "genreName" },
+            {
+              data: "bookPrice",
+              render: $.fn.dataTable.render.number(",", ".", 3, "Rp"),
+            },
+            {
+              data: "image",
+              render: function (data, type, row, meta) {
+                return `<img src="http://127.0.0.1:8000/images/${data}" alt="img"
+                    style="width: 180px; height: 100px"/>`;
+              },
+            },
+            { data: "Status" },
+          ],
+        });
+      });
+    },
   },
 
   beforeMount() {
@@ -57,11 +79,7 @@ export default {
         <h5>Total Books : {{ userBooks.length }}</h5>
         <h5>Total Spend : {{ totalPrices }}</h5>
 
-        <table
-          id="mytable"
-          border="1"
-          class="table table-bordered table-hover data-table"
-        >
+        <table id="mytable" class="table table-bordered table-hover data-table">
           <thead>
             <tr>
               <th>Book Title</th>
