@@ -5,12 +5,10 @@ import { mapWritableState, mapActions } from "pinia";
 export default {
   name: "App",
   beforeMount() {
-    if (localStorage.getItem("role") == "guest") {
+    if (localStorage.getItem("role") == "guest" && localStorage.getItem('access_token')) {
       this.$router.push("/guest");
-    } else if (localStorage.getItem("role") == "admin") {
+    } else if (localStorage.getItem("role") == "admin" && localStorage.getItem('access_token')) {
       this.$router.push("/");
-    } else {
-      this.$router.push("/login");
     }
   },
 };

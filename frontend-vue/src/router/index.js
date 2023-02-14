@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AdminHomeView from "../views/AdminHomeView.vue";
 import LoginView from "../views/LoginView.vue";
+import RegisterView from "../views/RegisterView.vue";
 import AdminShowBooks from "../views/AdminShowBooks.vue";
 import AdminAddBook from "../views/AdminAddBook.vue";
 import AdminShowOrder from "../views/AdminShowOrder.vue";
@@ -30,6 +31,14 @@ const router = createRouter({
       component: LoginView,
       meta: {
         title: "Login Page",
+      },
+    },
+    {
+      path: "/register",
+      name: "Register",
+      component: RegisterView,
+      meta: {
+        title: "Register Page",
       },
     },
     {
@@ -124,8 +133,12 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-  if (!localStorage.getItem("access_token") && to.fullPath !== "/login") {
-    return { name: "Login" };
+  if (
+    localStorage.getItem("access_token") &&
+    to.fullPath == "/register" &&
+    localStorage.getItem("role") == "admin"
+  ) {
+    return { name: "AdminHome" };
   } else if (
     localStorage.getItem("access_token") &&
     to.fullPath == "/login" &&
@@ -135,9 +148,19 @@ router.beforeEach((to, from) => {
   } else if (
     localStorage.getItem("access_token") &&
     to.fullPath == "/login" &&
-    localStorage.getItem("role") == "admin"
+    localStorage.getItem("role") == "guest"
   ) {
     return { name: "GuestHome" };
+  } else if (
+    localStorage.getItem("access_token") &&
+    to.fullPath == "/register" &&
+    localStorage.getItem("role") == "guest"
+  ) {
+    return { name: "GuestHome" };
+  } else if (!localStorage.getItem("access_token") && to.fullPath == "/") {
+    return { name: "Login" };
+  } else if (!localStorage.getItem("access_token") && to.fullPath == "/guest") {
+    return { name: "Login" };
   }
 
   const title = to.meta.title;

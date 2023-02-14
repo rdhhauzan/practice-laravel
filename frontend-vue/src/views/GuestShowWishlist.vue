@@ -41,7 +41,10 @@ export default {
           data: this.wishlist,
           columns: [
             { data: "bookName" },
-            { data: "bookPrice" },
+            {
+              data: "bookPrice",
+              render: $.fn.dataTable.render.number(",", ".", 3, "Rp"),
+            },
             { data: "bookDescription", targets: "no-sort", orderable: false },
             { data: "genreName" },
             {
