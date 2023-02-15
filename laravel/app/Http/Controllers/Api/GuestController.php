@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailJob;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
 use App\Mail\Email;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,9 +61,7 @@ class GuestController extends Controller
             'userId' => $userId
         ]);
 
-        $to_email = Auth::user()->email;
-        Mail::to($to_email)->send(new Email());
-
+        SendEmailJob::dispatch(Auth::user()->email);
         return response()->json('Success Buy Book!');
     }
 

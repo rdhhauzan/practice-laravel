@@ -75,6 +75,17 @@ export default {
   <div class="" style="margin-top: 58px">
     <div class="container pt-4">
       <h2>User Books</h2>
+      <!-- Loading -->
+      <div class="d-flex justify-content-center" v-if="isLoading">
+        <div
+          class="spinner-border"
+          role="status"
+          style="width: 5rem; height: 5rem"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <!-- End Loading -->
       <div class="" v-if="!isLoading">
         <h5>Total Books : {{ userBooks.length }}</h5>
         <h5>Total Spend : {{ totalPrices }}</h5>

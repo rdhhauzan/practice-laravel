@@ -14,18 +14,6 @@ class BookController extends Controller
 {
     public function index(Request $request)
     {
-        // $cached = Redis::get('books');
-
-        // if (isset($cached)) {
-        //     $books = json_decode($cached, null);
-        //     $genres = DB::table('genre')->orderBy('id', 'desc')->get();
-        //     return view('books', compact('books', 'genres'));
-        // } else {
-        //     $books = DB::table('books')->join('genre', 'books.genreId', '=', 'genre.id')->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.*')->get();
-        //     $genres = DB::table('genre')->orderBy('id', 'desc')->get();
-        //     Redis::set('books', $books);
-        //     return view('books', compact('books', 'genres'));
-        // }
         $column = $request->column ? $request->column : 'id';
         $direction = $request->direction ? $request->direction : 'desc';
         if ($direction != 'asc' && $direction != 'desc') {

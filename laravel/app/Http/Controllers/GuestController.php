@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendEmailJob;
 use Midtrans\Config;
 use Midtrans\Snap;
 use App\Mail\Email;
@@ -62,8 +63,7 @@ class GuestController extends Controller
             'userId' => $userId,
         ]);
 
-        $to_email = Auth::user()->email;
-        Mail::to($to_email)->send(new Email());
+        SendEmailJob::dispatch(Auth::user()->email);
 
         return redirect('/')->with('success', 'Book success to buy');
     }

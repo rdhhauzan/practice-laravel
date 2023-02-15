@@ -314,8 +314,6 @@ export default {
   },
   beforeMount() {
     this.fetchBooks();
-  },
-  mounted() {
     this.initDataTable();
   },
 };
