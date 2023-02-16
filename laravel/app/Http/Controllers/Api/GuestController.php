@@ -7,7 +7,6 @@ use App\Jobs\SendEmailJob;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
-use App\Mail\Email;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,7 +60,7 @@ class GuestController extends Controller
             'userId' => $userId
         ]);
 
-        SendEmailJob::dispatch(Auth::user()->email);
+        SendEmailJob::dispatch(Auth::user()->email, $bookId);
         return response()->json('Success Buy Book!');
     }
 

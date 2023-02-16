@@ -27,6 +27,7 @@ export default {
         this.users = data.users;
         console.log(this.users);
         console.log(this.users.length);
+        this.initDataTable();
       } catch (error) {
         console.log(error);
       } finally {
@@ -35,8 +36,13 @@ export default {
     },
 
     initDataTable() {
-
-    }
+      $(document).ready(() => {
+        $("#mytable").dataTable({
+          data: this.users,
+          columns: [{ data: "name" }, { data: "email" }, { data: "role" }],
+        });
+      });
+    },
   },
   beforeMount() {
     this.fetchUsers();
@@ -64,10 +70,12 @@ export default {
 
       <div class="" v-if="!isLoading">
         <div class="" v-if="users.length > 0">
-          <table class="table table-bordered table-hover data-table" border="1">
+          <table
+            class="table table-bordered table-hover data-table"
+            id="mytable"
+          >
             <thead>
               <tr>
-                <th scope="col">No.</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Role</th>
@@ -75,7 +83,6 @@ export default {
             </thead>
             <tbody>
               <tr v-for="(user, index) in users">
-                <th scope="row">{{ index + 1 }}</th>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>

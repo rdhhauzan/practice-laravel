@@ -45,7 +45,7 @@ export default {
             { data: "name" },
             {
               data: "price",
-              render: $.fn.dataTable.render.number(",", ".", 3, "Rp"),
+              render: $.fn.dataTable.render.number(",", ".", 2, "Rp"),
             },
             {
               data: "image",

@@ -55,11 +55,16 @@ export default {
           columns: [
             { data: "id" },
             { data: "bookName" },
-            { data: "price" },
+            {
+              data: "price",
+              render: $.fn.dataTable.render.number(",", ".", 2, "Rp"),
+            },
             { data: "description" },
             { data: "name" },
             {
               data: "image",
+              targets: "no-sort",
+              orderable: false,
               render: function (data, type, row, meta) {
                 return `<img src="http://127.0.0.1:8000/images/${data}" alt="img"
                     style="width: 180px; height: 100px"/>`;
@@ -67,6 +72,8 @@ export default {
             },
             {
               data: null,
+              targets: "no-sort",
+              orderable: false,
               render: function (data, type, row) {
                 return `<a
                     href="#"

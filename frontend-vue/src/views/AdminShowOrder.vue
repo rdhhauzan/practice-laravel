@@ -69,9 +69,14 @@ export default {
           columns: [
             { data: "email" },
             { data: "bookName" },
-            { data: "bookPrice" },
+            {
+              data: "bookPrice",
+              render: $.fn.dataTable.render.number(",", ".", 2, "Rp"),
+            },
             { data: "Status" },
             {
+              targets: "no-sort",
+              orderable: false,
               data: null,
               render: function (data, type, row) {
                 return `<button

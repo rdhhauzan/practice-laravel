@@ -43,7 +43,7 @@ export default {
             { data: "bookName" },
             {
               data: "bookPrice",
-              render: $.fn.dataTable.render.number(",", ".", 3, "Rp"),
+              render: $.fn.dataTable.render.number(",", ".", 2, "Rp"),
             },
             { data: "bookDescription", targets: "no-sort", orderable: false },
             { data: "genreName" },

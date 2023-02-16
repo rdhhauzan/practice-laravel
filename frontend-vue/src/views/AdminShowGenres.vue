@@ -46,6 +46,8 @@ export default {
             { data: "id" },
             { data: "name" },
             {
+              targets: "no-sort",
+              orderable: false,
               data: null,
               render: function (data, type, row) {
                 return `<button

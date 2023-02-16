@@ -47,10 +47,12 @@ export default {
             { data: "genreName" },
             {
               data: "bookPrice",
-              render: $.fn.dataTable.render.number(",", ".", 3, "Rp"),
+              render: $.fn.dataTable.render.number(",", ".", 2, "Rp"),
             },
             {
               data: "image",
+              targets: "no-sort",
+              orderable: false,
               render: function (data, type, row, meta) {
                 return `<img src="http://127.0.0.1:8000/images/${data}" alt="img"
                     style="width: 180px; height: 100px"/>`;
