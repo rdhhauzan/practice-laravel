@@ -47,6 +47,6 @@ class AuthController extends Controller
         ];
 
         DB::table('users')->insert($data);
-        return response()->json("Register Success!");
+        return response()->json("Register Success!", 201);
     }
 }

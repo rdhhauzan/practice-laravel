@@ -26,7 +26,7 @@ class SendEmailJob implements ShouldQueue
      * @return void
      */
     public function __construct($to_email, $bookId)
-    {
+    { 
         //
         $this->to_email = $to_email;
         $this->bookId = $bookId;
@@ -39,7 +39,6 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        //
         $books = DB::table('books')
             ->join('genre', 'books.genreId', '=', 'genre.id')
             ->select('books.id AS bookId', 'books.name AS bookName', 'books.price', 'books.description', 'genre.name AS genreName', 'books.image')
@@ -50,6 +49,5 @@ class SendEmailJob implements ShouldQueue
 
         $mail = new Email();
         Mail::to($this->to_email)->send($mail->attachData($pdf->output(), 'invoice.pdf'));
-
     }
 }
